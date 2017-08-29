@@ -1,0 +1,26 @@
+name: ordreset
+description: Ordreset Web
+version: 0.0.1
+environment:
+  sdk: '>=1.13.0 <2.0.0'
+dependencies:
+  angular: ^4.0.0-beta
+  angular_components: ^0.6.0-beta
+  http: ^0.11.0
+dev_dependencies:
+  angular_test: ^1.0.0-beta+5
+  browser: ^0.10.0
+  dart_to_js_script_rewriter: ^1.0.0
+  test: ^0.12.0
+transformers:
+  # TODO. Can this be simplified to `- angular:`, now with Angular 4?
+  - angular/transform/codegen:
+      entry_points: web/main.dart
+  - dart_to_js_script_rewriter
+  # TODO. Can this section be removed, now with Angular 4?
+  - angular/transform/reflection_remover:
+      $include:
+        - test/**_test.dart
+        - web/main.dart
+  - test/pub_serve:
+      $include: test/**_test.dart
