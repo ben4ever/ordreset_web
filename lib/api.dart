@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
 import 'package:http/http.dart';
 
 @Injectable()
@@ -10,15 +10,11 @@ class Api {
 
   Api(this._client);
 
-  Future<List<Map<String, String>>> getPartners() async =>
-      await _makeCall(_client.get, '/partners');
+  Future<List<Map<String, String>>> getOrders() async =>
+      await _makeCall(_client.get, '/orders');
 
-  Future<Map<String, dynamic>> getData(String partner, int interval) async {
-    var uri = new Uri(
-        path: '/partners/${partner}/data',
-        queryParameters: <String, dynamic>{'interval': '$interval'});
-    return await _makeCall(_client.get, uri.toString());
-  }
+  Future<Map<String, dynamic>> resetOrder(int id) async =>
+      await _makeCall(_client.post, '/orders/${id}', {'reset': true});
 
   Future<dynamic> _makeCall(Function fn, String uri, [dynamic body]) async {
     Response resp;

@@ -1,12 +1,12 @@
 @Tags(const ['aot'])
 @TestOn('browser')
 
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
 import 'package:test/test.dart';
 
-import 'dashboard.dart' as dashboard;
+import 'order_component.dart' as order_component;
 
 @AngularEntrypoint()
 void main() {
-  group('dashboard:', dashboard.main);
+  group('order_component:', order_component.main);
 }

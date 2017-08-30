@@ -12,7 +12,6 @@ import 'package:pageloader/html.dart';
 import 'package:test/test.dart';
 
 import 'package:ordreset/api.dart';
-import 'package:ordreset/application_tokens.dart';
 import 'package:ordreset/dashboard.dart';
 import 'package:ordreset/testing.dart';
 import 'dashboard_po.dart';
@@ -42,7 +41,6 @@ void main() {
         .addProviders([
       provide(BaseClient, useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
-      provide(autoUpdate, useValue: false),
       materialProviders,
       provide(overlayContainerParent, useValue: overlayContDiv),
     ]);
@@ -54,14 +52,6 @@ void main() {
   group('radio:', () {
     test('check initial state', () async {
       expect(await po.isRadioChecked(3), true);
-    });
-
-    test('click 60', () async {
-      await po.clickRadio(0);
-      expect(await po.isRadioChecked(0), true);
-      await fixture.update((c) {
-        expect(c.chosenInterval, 60);
-      });
     });
   });
 
