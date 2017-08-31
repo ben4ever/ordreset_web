@@ -7,7 +7,7 @@ class OrderPO {
   List<PageLoaderElement> _tds;
 
   @ByTagName('material-fab')
-  PageLoaderElement _button;
+  List<PageLoaderElement> _buttons;
 
   Future<String> getTdText(int index) => _tds[index].visibleText;
 }

@@ -1,9 +1,24 @@
 <tr>
-  <td>{{order?.id}}</td>
-  <td>{{order?.desc}}</td>
+  <td>{{order.id}}</td>
+  <td>{{order.eventTimeStr}}</td>
+  <td>{{order.partner}}</td>
+  <td>{{order.msgType}}</td>
+  <td>{{order.procDesc}}</td>
+  <td>{{order.procMsg}}</td>
+  <td>{{order.errMsg}}</td>
   <td>
-    <material-fab mini raised>
+    <material-fab mini raised class="blue" (trigger)="">
+      <material-icon icon="visibility"></material-icon>
+    </material-fab>
+  </td>
+  <td>
+    <material-fab mini raised class="blue" (trigger)="">
       <material-icon icon="refresh"></material-icon>
+    </material-fab>
+  </td>
+  <td>
+    <material-fab mini raised class="blue" (trigger)="">
+      <material-icon icon="cancel"></material-icon>
     </material-fab>
   </td>
 </tr>

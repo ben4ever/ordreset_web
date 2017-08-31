@@ -27,7 +27,18 @@ void main() {
   });
 
   test('check initial state', () async {
-    expect(await po.getTdText(1), 'foo');
+    int idx = 0;
+    for (var val in [
+      '1000',
+      '2017-01-02 04:08:16',
+      'partner1',
+      'msgtype1',
+      'procdesc1',
+      'procmsg1',
+      'errmsg1'
+    ]) {
+      expect(await po.getTdText(idx++), val);
+    }
   });
 }
 
@@ -37,5 +48,6 @@ void main() {
   directives: const [OrderComponent],
 )
 class ParentComponent {
-  Order order1 = new Order(1, 'foo');
+  Order get order1 => new Order(1000, new DateTime(2017, 1, 2, 4, 8, 16),
+      'partner1', 'msgtype1', 'procdesc1', 'procmsg1', 'errmsg1');
 }
