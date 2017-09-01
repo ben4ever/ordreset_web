@@ -1,0 +1,8 @@
+<div *ngIf="!isLoading">
+  <material-fab mini raised class="blue" (trigger)="click()">
+    <material-icon [icon]="icon"></material-icon>
+  </material-fab>
+</div>
+<div *ngIf="isLoading">
+  <material-spinner></material-spinner>
+</div>

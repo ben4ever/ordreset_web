@@ -7,18 +7,12 @@
   <td>{{order.procMsg}}</td>
   <td>{{order.errMsg}}</td>
   <td>
-    <material-fab mini raised class="blue" (trigger)="">
-      <material-icon icon="visibility"></material-icon>
-    </material-fab>
+    <my-button [actionFunc]="editXml" icon="visibility"></my-button>
   </td>
   <td>
-    <material-fab mini raised class="blue" (trigger)="">
-      <material-icon icon="refresh"></material-icon>
-    </material-fab>
+    <my-button [actionFunc]="resubmit" icon="refresh"></my-button>
   </td>
   <td>
-    <material-fab mini raised class="blue" (trigger)="">
-      <material-icon icon="cancel"></material-icon>
-    </material-fab>
+    <my-button [actionFunc]="cancel" icon="cancel"></my-button>
   </td>
 </tr>
