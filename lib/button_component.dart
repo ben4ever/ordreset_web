@@ -13,13 +13,13 @@ class ButtonComponent {
   String icon;
 
   @Input('actionFunc')
-  Function runAction;
+  Future<Null> Function() runAction;
 
   bool isLoading = false;
 
   Future<Null> click() async {
     isLoading = true;
-    await runAction(icon);
+    await runAction();
     isLoading = false;
   }
 }

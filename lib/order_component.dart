@@ -14,22 +14,19 @@ class OrderComponent {
   @Input('order')
   Order order;
 
-  Future<Null> editXml(String id) async {
-    await common(id);
+  Future<Null> editXml() async {
+    await common();
   }
 
-  Future<Null> resubmit(String id) async {
-    await common(id);
+  Future<Null> resubmit() async {
+    await common();
   }
 
-  Future<Null> cancel(String id) async {
-    await common(id);
+  Future<Null> cancel() async {
+    await common();
   }
 
-  Future<Null> common(String s) async {
-    print('$s clicked');
-    await new Future.delayed(const Duration(seconds: 1));
-  }
+  Future common() => new Future.delayed(const Duration(milliseconds: 500));
 }
 
 class Order {

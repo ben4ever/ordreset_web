@@ -1,6 +1,8 @@
 @Tags(const ['aot'])
 @TestOn('browser')
 
+import 'dart:async';
+
 import 'package:angular_test/angular_test.dart';
 import 'package:angular/angular.dart';
 import 'package:test/test.dart';
@@ -38,10 +40,14 @@ void main() {
   });
 
   test('click "editXml" button', () async {
-    expect(po.spinnersCnt, 0);
+    expect(await po.spinners, hasLength(0));
     await po.clickButton(0);
-    po = await fixture.resolvePageObject(OrderPO);
-    expect(po.spinnersCnt, 3);
+    // Wait for click to be completed (can't use `fixture.update` as it will not
+    // complete).
+    await new Future(() {});
+    expect(await po.spinners, hasLength(1));
+    await new Future.delayed(const Duration(milliseconds: 700));
+    expect(await po.spinners, hasLength(0));
   });
 }
 

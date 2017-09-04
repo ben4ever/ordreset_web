@@ -10,11 +10,11 @@ class OrderPO {
   List<PageLoaderElement> _buttons;
 
   @ByTagName('material-spinner')
-  List<PageLoaderElement> _spinners;
+  Lazy<List<PageLoaderElement>> _spinners;
 
   Future<String> getTdText(int index) => _tds[index].visibleText;
 
-  Future clickButton(int index) => _buttons[index].click();
+  Future clickButton(int index) => _buttons[index].click(sync: false);
 
-  int get spinnersCnt => _spinners.length;
+  Future<List<PageLoaderElement>> get spinners => _spinners();
 }
