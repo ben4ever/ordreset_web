@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
+import 'package:http/http.dart';
 
 @Component(
   selector: 'my-button',
   templateUrl: 'button_component.html',
   directives: const [CORE_DIRECTIVES, materialDirectives],
+  exports: const [ActionState],
 )
 class ButtonComponent {
   @Input('icon')
@@ -15,11 +17,21 @@ class ButtonComponent {
   @Input('actionFunc')
   Future<Null> Function() runAction;
 
-  bool isLoading = false;
+  ActionState state;
+
+  ButtonComponent() : state = ActionState.Idle;
 
   Future<Null> click() async {
-    isLoading = true;
-    await runAction();
-    isLoading = false;
+    state = ActionState.Requested;
+    try {
+      await runAction();
+      state = ActionState.Success;
+    } on ClientException {
+      state = ActionState.Error;
+    }
+    new Future.delayed(
+        const Duration(seconds: 1), () => state = ActionState.Idle);
   }
 }
+
+enum ActionState { Idle, Requested, Error, Success }

@@ -1,8 +1,13 @@
-<div *ngIf="!isLoading">
-  <material-fab mini raised class="blue" (trigger)="click()">
+<div [ngSwitch]="state">
+  <material-fab *ngSwitchCase="ActionState.Idle" mini raised class="blue"
+      (trigger)="click()">
     <material-icon [icon]="icon"></material-icon>
   </material-fab>
-</div>
-<div *ngIf="isLoading">
-  <material-spinner></material-spinner>
+  <material-spinner *ngSwitchCase="ActionState.Requested"></material-spinner>
+  <material-icon *ngSwitchCase="ActionState.Success" icon="done"
+    style="color:green">
+  </material-icon>
+  <material-icon *ngSwitchCase="ActionState.Error" icon="error"
+    style="color:red">
+  </material-icon>
 </div>

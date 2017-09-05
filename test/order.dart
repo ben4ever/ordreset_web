@@ -36,18 +36,20 @@ void main() {
       'errmsg1'
     ]) {
       expect(await po.getTdText(idx++), val);
+      expect(await po.buttons, hasLength(3));
     }
   });
 
-  test('click "editXml" button', () async {
-    expect(await po.spinners, hasLength(0));
+  test('click "editXml"', () async {
     await po.clickButton(0);
     // Wait for click to be completed (can't use `fixture.update` as it will not
     // complete).
     await new Future(() {});
     expect(await po.spinners, hasLength(1));
     await new Future.delayed(const Duration(milliseconds: 700));
-    expect(await po.spinners, hasLength(0));
+    expect(await po.iconsDone, hasLength(1));
+    await new Future.delayed(const Duration(seconds: 1));
+    expect(await po.buttons, hasLength(3));
   });
 }
 
