@@ -1,6 +1,6 @@
 import 'package:angular/angular.dart';
 
-import 'package:ordreset/order_component.dart';
+import 'order_component.dart';
 
 @Component(
   selector: 'dashboard',

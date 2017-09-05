@@ -7,7 +7,7 @@ import 'package:angular_test/angular_test.dart';
 import 'package:angular/angular.dart';
 import 'package:test/test.dart';
 
-import 'package:ordreset/order_component.dart';
+import 'package:ordreset/src/order_component.dart';
 import 'order_po.dart';
 
 @AngularEntrypoint()

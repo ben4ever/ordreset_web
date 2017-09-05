@@ -11,8 +11,8 @@ import 'package:http/http.dart';
 import 'package:pageloader/html.dart';
 import 'package:test/test.dart';
 
-import 'package:ordreset/api.dart';
-import 'package:ordreset/dashboard.dart';
+import 'package:ordreset/src/api.dart';
+import 'package:ordreset/src/dashboard.dart';
 import 'package:ordreset/testing.dart';
 import 'dashboard_po.dart';
 

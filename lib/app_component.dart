@@ -3,8 +3,8 @@ import 'package:angular/angular.dart';
 import 'package:http/browser_client.dart';
 import 'package:http/http.dart';
 
-import 'package:ordreset/api.dart';
-import 'package:ordreset/dashboard.dart';
+import 'src/api.dart';
+import 'src/dashboard.dart';
 
 BrowserClient browserClientFactory() => new BrowserClient();
 
