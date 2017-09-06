@@ -7,7 +7,13 @@
   <td>{{order.procMsg}}</td>
   <td>{{order.errMsg}}</td>
   <td>
-    <my-button [actionFunc]="editXml" icon="visibility"></my-button>
+    <my-button [actionFunc]="viewXml" icon="visibility"></my-button>
+    <modal [visible]="false">
+      <material-dialog style="height: 80%; width: 80%">
+        <material-input multiline rows="20" label="Write XML content here">
+        </material-input>
+      </material-dialog>
+    </modal>
   </td>
   <td>
     <my-button [actionFunc]="resubmit" icon="refresh"></my-button>

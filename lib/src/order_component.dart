@@ -1,32 +1,40 @@
 import 'dart:async';
 
 import 'package:angular/angular.dart';
+import 'package:angular_components/angular_components.dart';
 import 'package:intl/intl.dart';
 
 import 'button_component.dart';
+import 'api.dart';
 
 @Component(
   selector: 'my-order',
   templateUrl: 'order_component.html',
-  directives: const [ButtonComponent],
+  directives: const [ButtonComponent, materialDirectives],
 )
 class OrderComponent {
+  Api _api;
+
   @Input('order')
   Order order;
 
-  Future<Null> editXml() async {
-    await common();
+  OrderComponent(this._api);
+
+  Future<Null> viewXml() async {
+    (await _api.getOrder(order.id))['xml'];
+  }
+
+  Future<Null> updateXml() async {
+    await _api.updateOrder(order.id, node: null);
   }
 
   Future<Null> resubmit() async {
-    await common();
+    await _api.updateOrder(order.id, resubmit: true);
   }
 
   Future<Null> cancel() async {
-    await common();
+    await _api.updateOrder(order.id, cancel: true);
   }
-
-  Future common() => new Future.delayed(const Duration(milliseconds: 500));
 }
 
 class Order {

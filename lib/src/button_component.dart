@@ -29,8 +29,8 @@ class ButtonComponent {
     } on ClientException {
       state = ActionState.Error;
     }
-    new Future.delayed(
-        const Duration(seconds: 1), () => state = ActionState.Idle);
+    await new Future.delayed(const Duration(seconds: 1));
+    state = ActionState.Idle;
   }
 }
 
