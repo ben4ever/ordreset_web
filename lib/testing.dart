@@ -8,15 +8,19 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:intl/intl.dart';
 
+import 'src/application_tokens.dart';
+
 @Injectable()
-MockClient mockClientFactory({List<Request> requests}) {
-  return new MockClient(new TestClient(requests).handler);
+MockClient mockClientFactory(
+    List<Request> requests, Completer<Null> completer) {
+  return new MockClient(new TestClient(requests, completer).handler);
 }
 
 class TestClient {
   List<Request> _requests;
+  Completer<Null> _completer;
 
-  TestClient(this._requests);
+  TestClient(this._requests, this._completer);
 
   Future<Response> handler(Request request) async {
     _requests?.add(request);
@@ -63,7 +67,8 @@ class TestClient {
           break;
       }
     }
-    await new Future.delayed(const Duration(milliseconds: 500));
+    await (_completer?.future ??
+        new Future.delayed(const Duration(milliseconds: 500)));
     return new Response(JSON.encode(data), 200,
         headers: {'content-type': 'application/json'});
   }

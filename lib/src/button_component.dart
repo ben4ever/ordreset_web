@@ -4,6 +4,8 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:http/http.dart';
 
+import 'application_tokens.dart';
+
 @Component(
   selector: 'my-button',
   templateUrl: 'button_component.html',
@@ -18,8 +20,10 @@ class ButtonComponent {
   Future<Null> Function() runAction;
 
   ActionState state;
+  Completer<Null> _completer;
 
-  ButtonComponent() : state = ActionState.Idle;
+  ButtonComponent(@Inject(blockIconChange) this._completer)
+      : state = ActionState.Idle;
 
   Future<Null> click() async {
     state = ActionState.Requested;
@@ -29,7 +33,8 @@ class ButtonComponent {
     } on ClientException {
       state = ActionState.Error;
     }
-    await new Future.delayed(const Duration(seconds: 1));
+    await (_completer?.future ??
+        new Future.delayed(const Duration(seconds: 1)));
     state = ActionState.Idle;
   }
 }

@@ -10,6 +10,7 @@ import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 import 'package:ordreset/src/api.dart';
+import 'package:ordreset/src/application_tokens.dart';
 import 'package:ordreset/src/order_component.dart';
 import 'package:ordreset/testing.dart';
 import 'order_po.dart';
@@ -19,13 +20,21 @@ void main() {
   OrderPO po;
   NgTestFixture<ParentComponent> fixture;
   List<Request> requests;
+  Completer<Null> blockApiCompleter;
+  Completer<Null> blockIconChangeCompleter;
 
   tearDown(disposeAnyRunningTest);
 
   setUp(() async {
+    blockApiCompleter = new Completer<Null>();
+    blockIconChangeCompleter = new Completer<Null>();
     requests = new List<Request>();
     final testBed = new NgTestBed<ParentComponent>().addProviders([
-      provide(BaseClient, useFactory: () => mockClientFactory(requests: requests)),
+      provide(blockApi, useValue: blockApiCompleter),
+      provide(blockIconChange, useValue: blockIconChangeCompleter),
+      provide(requestList, useValue: requests),
+      provide(BaseClient,
+          useFactory: mockClientFactory, deps: [requestList, blockApi]),
       provide(Api, useClass: Api, deps: [BaseClient]),
       materialProviders,
     ]);
@@ -52,15 +61,18 @@ void main() {
 
   test('click "viewXml"', () async {
     await po.clickButton(0);
-    // Wait for click to be completed (can't use `fixture.update` as it will not
-    // complete).
-    await new Future.delayed(const Duration(milliseconds: 100));
+    await fixture.update();
     expect(await po.spinners, hasLength(1));
-    await new Future.delayed(const Duration(milliseconds: 700));
+
+    blockApiCompleter.complete();
+    await fixture.update();
     expect(await po.iconsDone, hasLength(1));
-    await new Future.delayed(const Duration(milliseconds: 1100));
+
+    blockIconChangeCompleter.complete();
+    await fixture.update();
     expect(await po.buttons, hasLength(3));
     expect(requests, hasLength(1));
+    expect(requests[0].url.pathSegments, hasLength(3));
   });
 }
 
