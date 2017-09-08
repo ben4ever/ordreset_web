@@ -55,8 +55,8 @@ void main() {
       'errmsg1'
     ]) {
       expect(await po.getTdText(idx++), val);
-      expect(await po.buttons, hasLength(3));
     }
+    expect(await po.buttons, hasLength(3));
   });
 
   test('click "viewXml"', () async {
@@ -72,7 +72,6 @@ void main() {
     await fixture.update();
     expect(await po.buttons, hasLength(3));
     expect(requests, hasLength(1));
-    expect(requests[0].url.pathSegments, hasLength(3));
   });
 }
 
