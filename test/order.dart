@@ -30,11 +30,11 @@ void main() {
     blockIconChangeCompleter = new Completer<Null>();
     requests = new List<Request>();
     final testBed = new NgTestBed<ParentComponent>().addProviders([
-      provide(blockApi, useValue: blockApiCompleter),
-      provide(blockIconChange, useValue: blockIconChangeCompleter),
+      provide(blockApi, useValue: blockApiCompleter.future),
+      provide(blockIconChange, useValue: blockIconChangeCompleter.future),
       provide(requestList, useValue: requests),
       provide(BaseClient,
-          useFactory: mockClientFactory, deps: [requestList, blockApi]),
+          useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
       materialProviders,
     ]);

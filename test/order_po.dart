@@ -22,8 +22,7 @@ class OrderPO {
 
   Future<List<PageLoaderElement>> get buttons => _buttons();
 
-  Future clickButton(int index) async =>
-      (await buttons)[index].click();
+  Future clickButton(int index) async => (await buttons)[index].click();
 
   Future<List<PageLoaderElement>> get spinners => _spinners();
 

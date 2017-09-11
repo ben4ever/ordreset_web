@@ -12,15 +12,14 @@ import 'src/application_tokens.dart';
 
 @Injectable()
 MockClient mockClientFactory(
-    List<Request> requests, Completer<Null> completer) {
-  return new MockClient(new TestClient(requests, completer).handler);
-}
+        @Inject(requestList) List<Request> requests, @Inject(blockApi) Future<Null> blockFuture) =>
+    new MockClient(new TestClient(requests, blockFuture).handler);
 
 class TestClient {
   List<Request> _requests;
-  Completer<Null> _completer;
+  Future<Null> _blockFuture;
 
-  TestClient(this._requests, this._completer);
+  TestClient(this._requests, this._blockFuture);
 
   Future<Response> handler(Request request) async {
     _requests?.add(request);
@@ -67,8 +66,7 @@ class TestClient {
           break;
       }
     }
-    await (_completer?.future ??
-        new Future.delayed(const Duration(milliseconds: 500)));
+    await _blockFuture;
     return new Response(JSON.encode(data), 200,
         headers: {'content-type': 'application/json'});
   }

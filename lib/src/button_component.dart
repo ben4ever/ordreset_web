@@ -20,9 +20,9 @@ class ButtonComponent {
   Future<Null> Function() runAction;
 
   ActionState state;
-  Completer<Null> _completer;
+  Future<Null> _blockFuture;
 
-  ButtonComponent(@Inject(blockIconChange) this._completer)
+  ButtonComponent(@Inject(blockIconChange) this._blockFuture)
       : state = ActionState.Idle;
 
   Future<Null> click() async {
@@ -33,8 +33,8 @@ class ButtonComponent {
     } on ClientException {
       state = ActionState.Error;
     }
-    await (_completer?.future ??
-        new Future.delayed(const Duration(seconds: 1)));
+    await _blockFuture;
+
     state = ActionState.Idle;
   }
 }
