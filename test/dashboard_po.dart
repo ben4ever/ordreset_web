@@ -3,31 +3,14 @@ import 'dart:async';
 import 'package:pageloader/objects.dart';
 
 class DashboardPO {
-  @ByCss('material-dropdown-select .button-text')
-  PageLoaderElement _dropdown;
+  @ByCss('my-order material-fab')
+  Lazy<List<PageLoaderElement>> _actionButtons;
 
-  @ByTagName('material-radio')
-  List<PageLoaderElement> _radios;
+  @ByCss('modal material-fab')
+  Lazy<PageLoaderElement> _saveXmlButton;
 
-  @ById('bottom-bar')
-  @optional
-  PageLoaderElement _bottomBar;
+  Future clickActionButton(int index) async =>
+      (await _actionButtons())[index].click();
 
-  @ByTagName('material-select-dropdown-item')
-  List<PageLoaderElement> _dropdownItems;
-
-  Future<String> get dropdownLabel => _dropdown.visibleText;
-
-  Future<bool> isRadioChecked(int index) async =>
-      await _radios[index].attributes['aria-checked'] == 'true';
-
-  Future<Null> clickRadio(int index) async => await _radios[index].click();
-
-  Future<String> get bottomBarText => _bottomBar.visibleText;
-
-  Future<Null> clickDropdown() => _dropdown.click();
-
-  int get dropdownLength => _dropdownItems.length;
-
-  Future<Null> clickDropdownItem(int index) => _dropdownItems[index].click();
+  Future clickSaveXmlButton() async => (await _saveXmlButton()).click();
 }

@@ -12,6 +12,7 @@ import 'package:test/test.dart';
 import 'package:ordreset/src/api.dart';
 import 'package:ordreset/src/application_tokens.dart';
 import 'package:ordreset/src/order_component.dart';
+import 'package:ordreset/src/order.dart';
 import 'package:ordreset/testing.dart';
 import 'order_po.dart';
 
@@ -33,8 +34,7 @@ void main() {
       provide(blockApi, useValue: blockApiCompleter.future),
       provide(blockIconChange, useValue: blockIconChangeCompleter.future),
       provide(requestList, useValue: requests),
-      provide(BaseClient,
-          useFactory: mockClientFactory),
+      provide(BaseClient, useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
       materialProviders,
     ]);
@@ -59,8 +59,23 @@ void main() {
     expect(await po.buttons, hasLength(3));
   });
 
-  test('click "viewXml"', () async {
-    await po.clickButton(0);
+  test('click "resubmit"', () async {
+    await po.clickButton(1);
+    await fixture.update();
+    expect(await po.spinners, hasLength(1));
+
+    blockApiCompleter.complete();
+    await fixture.update();
+    expect(await po.iconsDone, hasLength(1));
+
+    blockIconChangeCompleter.complete();
+    await fixture.update();
+    expect(await po.buttons, hasLength(3));
+    expect(requests, hasLength(1));
+  });
+
+  test('click "cancel"', () async {
+    await po.clickButton(2);
     await fixture.update();
     expect(await po.spinners, hasLength(1));
 

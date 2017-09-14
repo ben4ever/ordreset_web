@@ -9,7 +9,7 @@ import 'application_tokens.dart';
 @Component(
   selector: 'my-button',
   templateUrl: 'button_component.html',
-  directives: const [CORE_DIRECTIVES, materialDirectives],
+  directives: const [materialDirectives, CORE_DIRECTIVES],
   exports: const [ActionState],
 )
 class ButtonComponent {
@@ -18,6 +18,9 @@ class ButtonComponent {
 
   @Input('actionFunc')
   Future<Null> Function() runAction;
+
+  @Input('toIdleFunc')
+  void Function() toIdleFunc;
 
   ActionState state;
   Future<Null> _blockFuture;
@@ -34,8 +37,10 @@ class ButtonComponent {
       state = ActionState.Error;
     }
     await _blockFuture;
-
     state = ActionState.Idle;
+    if (toIdleFunc != null) {
+      toIdleFunc();
+    }
   }
 }
 

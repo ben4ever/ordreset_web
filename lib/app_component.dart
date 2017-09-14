@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 
 import 'src/api.dart';
 import 'src/application_tokens.dart';
-import 'src/dashboard.dart';
+import 'src/dashboard_component.dart';
 import 'testing.dart';
 
 BrowserClient browserClientFactory() => new BrowserClient();
@@ -15,7 +15,7 @@ BrowserClient browserClientFactory() => new BrowserClient();
 @Component(
   selector: 'my-app',
   templateUrl: 'app_component.html',
-  directives: const [Dashboard],
+  directives: const [DashboardComponent],
   providers: const [
     const Provider(BaseClient, useFactory: browserClientFactory),
     const Provider(Api, useClass: Api, deps: const [BaseClient]),
@@ -30,13 +30,11 @@ Future<Null> blockApiFactory() =>
 @Component(
   selector: 'my-app-test',
   templateUrl: 'app_component.html',
-  directives: const [Dashboard],
+  directives: const [DashboardComponent],
   providers: const [
     const Provider(blockApi, useFactory: blockApiFactory),
-    const Provider(BaseClient, useFactory: browserClientFactory),
     const Provider(Api, useClass: Api, deps: const [BaseClient]),
-    const Provider(BaseClient,
-        useFactory: mockClientFactory),
+    const Provider(BaseClient, useFactory: mockClientFactory),
     materialProviders,
   ],
 )

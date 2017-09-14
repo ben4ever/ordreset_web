@@ -2,15 +2,18 @@ import 'dart:async';
 
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
-import 'package:intl/intl.dart';
 
-import 'button_component.dart';
 import 'api.dart';
+import 'button_component.dart';
+import 'order.dart';
 
 @Component(
   selector: 'my-order',
   templateUrl: 'order_component.html',
-  directives: const [ButtonComponent, materialDirectives],
+  directives: const [
+    ButtonComponent,
+    materialDirectives,
+  ],
 )
 class OrderComponent {
   Api _api;
@@ -18,14 +21,13 @@ class OrderComponent {
   @Input('order')
   Order order;
 
+  @Input('viewXmlFunc')
+  Future<Null> Function() viewXmlFunc;
+
   OrderComponent(this._api);
 
   Future<Null> viewXml() async {
-    (await _api.getOrder(order.id))['xml'];
-  }
-
-  Future<Null> updateXml() async {
-    await _api.updateOrder(order.id, node: null);
+    await viewXmlFunc();
   }
 
   Future<Null> resubmit() async {
@@ -35,20 +37,4 @@ class OrderComponent {
   Future<Null> cancel() async {
     await _api.updateOrder(order.id, cancel: true);
   }
-}
-
-class Order {
-  int id;
-  DateTime eventTime;
-  String partner;
-  String msgType;
-  String procDesc;
-  String procMsg;
-  String errMsg;
-
-  Order(this.id, this.eventTime, this.partner, this.msgType, this.procDesc,
-      this.procMsg, this.errMsg);
-
-  String get eventTimeStr =>
-      new DateFormat('yyyy-MM-dd HH:mm:ss').format(eventTime);
 }

@@ -5,23 +5,29 @@ import 'package:angular/angular.dart';
 import 'package:http/http.dart';
 import 'package:xml/xml.dart' as xml;
 
+import 'order.dart';
+
 @Injectable()
 class Api {
   final BaseClient _client;
 
   Api(this._client);
 
-  Future<List<Map<String, String>>> getOrders() async =>
-      await _makeCall(_client.get, '/orders');
+  Future<List<Order>> getOrders() async {
+    List<Map<String, dynamic>> orders = await _makeCall(_client.get, '/orders');
+    return orders.map((order) => new Order.fromJson(order)).toList();
+  }
 
   Future<Map<String, dynamic>> getOrder(int id) async =>
       await _makeCall(_client.get, '/orders/${id}');
 
   Future<Map<String, dynamic>> updateOrder(int id,
-      {xml.XmlNode node, bool resubmit = false, bool cancel = false}) async {
+      {xml.XmlDocument xmlDoc,
+      bool resubmit = false,
+      bool cancel = false}) async {
     final data = new Map<String, dynamic>();
-    if (node != null) {
-      data['xml'] = node.toXmlString(pretty: true);
+    if (xmlDoc != null) {
+      data['xml'] = xmlDoc.toXmlString(pretty: true);
     }
     if (resubmit) {
       data['resubmit'] = true;

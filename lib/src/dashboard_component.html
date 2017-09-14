@@ -1,0 +1,17 @@
+<table>
+  <tbody>
+    <my-order *ngFor="let i of orders" [order]="i"
+      [viewXmlFunc]="getOpenDialogFunc(i)">
+    </my-order>
+  </tbody>
+</table>
+<modal [visible]="showDialog">
+  <material-dialog style="height: 80%; width: 80%">
+    <material-input multiline rows="20" label="Write XML content here">
+    </material-input>
+    <material-fab mini raised class="red" (trigger)="dismiss()">
+      <material-icon icon="cancel"></material-icon>
+    </material-fab>
+    <my-button [actionFunc]="saveXml" [toIdleFunc]="dismiss" icon="done"></my-button>
+  </material-dialog>
+</modal>
