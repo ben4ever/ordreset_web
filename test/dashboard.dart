@@ -14,6 +14,7 @@ import 'package:test/test.dart';
 
 import 'package:ordreset/src/api.dart';
 import 'package:ordreset/src/application_tokens.dart';
+import 'package:ordreset/src/blocker.dart';
 import 'package:ordreset/src/dashboard_component.dart';
 import 'package:ordreset/testing.dart';
 import 'dashboard_po.dart';
@@ -31,14 +32,15 @@ void main() {
   DashboardPO po;
   NgTestFixture<DashboardComponent> fixture;
   List<Request> requests;
-  Completer<Null> blockApiCompleter;
-  Completer<Null> blockIconChangeCompleter;
+  Map<String, Blocker> blockers;
 
   tearDown(disposeAnyRunningTest);
 
   setUp(() async {
-    blockApiCompleter = new Completer<Null>();
-    blockIconChangeCompleter = new Completer<Null>();
+    blockers = {
+      'api': new Blocker(),
+      'iconChange': new Blocker(),
+    };
     requests = new List<Request>();
 
     var parentDiv = new DivElement(),
@@ -48,8 +50,8 @@ void main() {
     final testBed = new NgTestBed<DashboardComponent>(host: hostDiv)
         .setPageLoader(_getCreatePageLoaderFunc(parentDiv))
         .addProviders([
-      provide(blockApi, useValue: blockApiCompleter.future),
-      provide(blockIconChange, useValue: blockIconChangeCompleter.future),
+      provide(blockApi, useValue: blockers['api'].block),
+      provide(blockIconChange, useValue: blockers['iconChange'].block),
       provide(requestList, useValue: requests),
       provide(BaseClient, useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
@@ -62,29 +64,46 @@ void main() {
   });
 
   test('check initial state', () async {
-    blockApiCompleter.complete();
+    blockers['api'].unblock();
     expect(requests, hasLength(1));
+    await fixture.update();
     await fixture.update((c) {
       expect(c.orders, hasLength(2));
     });
   });
 
-  group('click "resubmit"', () {
+  group('click "viewXml"', () {
     setUp(() async {
-      blockApiCompleter.complete();
+      blockers['api'].unblock();
       await fixture.update();
-      await po.clickActionButton(1);
-      blockApiCompleter.complete();
-      blockIconChangeCompleter.complete();
+      await po.clickActionButton(0);
+      await fixture.update();
+      blockers['api'].unblock();
+      await fixture.update();
+      blockers['iconChange'].unblock();
+      await fixture.update();
     });
 
     test('click "save XML"', () async {
-      await po.clickSaveXmlButton();
-      expect(
-          JSON.decode(requests[0].body)['xml'],
-          '<?xml version="1.0"?>'
+      await fixture.update((c) {
+        c.xmlInput.inputText = '<?xml version="1.0"?>'
           '<parent>'
           '  <child>foo updated</child>'
+          '</parent>';
+      });
+      await po.clickDialogButton(1);
+      await fixture.update();
+      blockers['api'].unblock();
+      await fixture.update();
+      blockers['iconChange'].unblock();
+      await fixture.update();
+      expect(requests, hasLength(3));
+      // TODO. Compare XML objects instead of String
+      expect(
+          JSON.decode(requests[2].body)['xml'],
+          '<?xml version="1.0"?>\n'
+          '<parent>\n'
+          '  <child>foo updated</child>\n'
           '</parent>');
     });
   });

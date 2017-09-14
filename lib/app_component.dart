@@ -24,7 +24,7 @@ BrowserClient browserClientFactory() => new BrowserClient();
 )
 class AppComponent {}
 
-Future<Null> blockApiFactory() =>
+Future<Null> delayFactory() =>
     new Future<Null>.delayed(const Duration(milliseconds: 500));
 
 @Component(
@@ -32,7 +32,7 @@ Future<Null> blockApiFactory() =>
   templateUrl: 'app_component.html',
   directives: const [DashboardComponent],
   providers: const [
-    const Provider(blockApi, useFactory: blockApiFactory),
+    const Provider(blockApi, useValue: delayFactory),
     const Provider(Api, useClass: Api, deps: const [BaseClient]),
     const Provider(BaseClient, useFactory: mockClientFactory),
     materialProviders,

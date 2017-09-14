@@ -23,7 +23,7 @@ class ButtonComponent {
   void Function() toIdleFunc;
 
   ActionState state;
-  Future<Null> _blockFuture;
+  Future<Null> Function() _blockFuture;
 
   ButtonComponent(@Inject(blockIconChange) this._blockFuture)
       : state = ActionState.Idle;
@@ -36,7 +36,7 @@ class ButtonComponent {
     } on ClientException {
       state = ActionState.Error;
     }
-    await _blockFuture;
+    await _blockFuture();
     state = ActionState.Idle;
     if (toIdleFunc != null) {
       toIdleFunc();

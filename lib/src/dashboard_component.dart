@@ -45,10 +45,8 @@ class DashboardComponent implements OnInit {
       };
 
   Future<Null> saveXml() async {
-    var xmlDoc = xml.parse('<?xml version="1.0"?>'
-        '<parent>'
-        '  <child>foo updated</child>'
-        '</parent>');
+    var xmlDoc = xml.parse(xmlInput.inputText);
+    // TODO. Do something with returned data from `updateOrder`?
     await _api.updateOrder(_dialogOrder.id, xmlDoc: xmlDoc);
   }
 

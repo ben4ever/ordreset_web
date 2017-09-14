@@ -11,6 +11,7 @@ import 'package:test/test.dart';
 
 import 'package:ordreset/src/api.dart';
 import 'package:ordreset/src/application_tokens.dart';
+import 'package:ordreset/src/blocker.dart';
 import 'package:ordreset/src/order_component.dart';
 import 'package:ordreset/src/order.dart';
 import 'package:ordreset/testing.dart';
@@ -21,18 +22,19 @@ void main() {
   OrderPO po;
   NgTestFixture<ParentComponent> fixture;
   List<Request> requests;
-  Completer<Null> blockApiCompleter;
-  Completer<Null> blockIconChangeCompleter;
+  Map<String, Blocker> blockers;
 
   tearDown(disposeAnyRunningTest);
 
   setUp(() async {
-    blockApiCompleter = new Completer<Null>();
-    blockIconChangeCompleter = new Completer<Null>();
+    blockers = {
+      'api': new Blocker(),
+      'iconChange': new Blocker(),
+    };
     requests = new List<Request>();
     final testBed = new NgTestBed<ParentComponent>().addProviders([
-      provide(blockApi, useValue: blockApiCompleter.future),
-      provide(blockIconChange, useValue: blockIconChangeCompleter.future),
+      provide(blockApi, useValue: blockers['api'].block),
+      provide(blockIconChange, useValue: blockers['iconChange'].block),
       provide(requestList, useValue: requests),
       provide(BaseClient, useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
@@ -64,11 +66,11 @@ void main() {
     await fixture.update();
     expect(await po.spinners, hasLength(1));
 
-    blockApiCompleter.complete();
+    blockers['api'].unblock();
     await fixture.update();
     expect(await po.iconsDone, hasLength(1));
 
-    blockIconChangeCompleter.complete();
+    blockers['iconChange'].unblock();
     await fixture.update();
     expect(await po.buttons, hasLength(3));
     expect(requests, hasLength(1));
@@ -79,11 +81,11 @@ void main() {
     await fixture.update();
     expect(await po.spinners, hasLength(1));
 
-    blockApiCompleter.complete();
+    blockers['api'].unblock();
     await fixture.update();
     expect(await po.iconsDone, hasLength(1));
 
-    blockIconChangeCompleter.complete();
+    blockers['iconChange'].unblock();
     await fixture.update();
     expect(await po.buttons, hasLength(3));
     expect(requests, hasLength(1));
