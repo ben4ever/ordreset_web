@@ -7,6 +7,7 @@ import 'package:xml/xml.dart' as xml;
 
 import 'api.dart';
 import 'button_component.dart';
+import 'dropdown_component.dart';
 import 'order_component.dart';
 import 'order.dart';
 
@@ -16,6 +17,7 @@ import 'order.dart';
   directives: const [
     ButtonComponent,
     OrderComponent,
+    DropdownComponent,
     materialDirectives,
     CORE_DIRECTIVES,
   ],

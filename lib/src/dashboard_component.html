@@ -1,4 +1,19 @@
-<table>
+<table id="dropdowns">
+  <tbody>
+    <tr>
+      <td>
+        <my-dropdown></my-dropdown>
+      </td>
+      <td>
+        <my-dropdown></my-dropdown>
+      </td>
+      <td>
+        <my-dropdown></my-dropdown>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table id="orders">
   <tbody>
     <my-order *ngFor="let i of orders" [order]="i"
       [viewXmlFunc]="getOpenDialogFunc(i)">

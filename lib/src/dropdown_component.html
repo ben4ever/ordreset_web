@@ -1,0 +1,12 @@
+<h2>Customer</h2>
+<material-dropdown-select
+    [buttonText]="buttonText"
+    [itemRenderer]="itemRenderer"
+    [options]="selectOptions"
+    [selection]="dropdownSelectModel"
+    (visibleChange)="onDropdownVisibleChange($event)">
+  <div header>
+    <material-select-searchbox label="Search..." [filterable]="selectOptions">
+    </material-select-searchbox>
+  </div>
+</material-dropdown-select>
