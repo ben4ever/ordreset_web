@@ -11,6 +11,7 @@ import 'package:angular_test/angular_test.dart';
 import 'package:http/http.dart';
 import 'package:pageloader/html.dart';
 import 'package:test/test.dart';
+import 'package:xml/xml.dart' as xml;
 
 import 'package:ordreset/src/api.dart';
 import 'package:ordreset/src/application_tokens.dart';
@@ -67,9 +68,7 @@ void main() {
     blockers['api'].unblock();
     expect(requests, hasLength(1));
     await fixture.update();
-    await fixture.update((c) {
-      expect(c.orders, hasLength(2));
-    });
+    await fixture.update((c) => expect(c.orders, hasLength(2)));
   });
 
   group('click "viewXml"', () {
@@ -84,27 +83,54 @@ void main() {
       await fixture.update();
     });
 
+    test('check dialog state', () async {
+      await fixture.update((c) => expect(c.showDialog, isTrue));
+      await fixture.update((c) => compareXml(
+          c.xmlInput.inputText,
+          '<?xml version="1.0"?>\n'
+          '<parent>\n'
+          '  <child>foo</child>\n'
+          '</parent>'));
+    });
+
     test('click "save XML"', () async {
-      await fixture.update((c) {
-        c.xmlInput.inputText = '<?xml version="1.0"?>'
-          '<parent>'
-          '  <child>foo updated</child>'
-          '</parent>';
-      });
+      await fixture
+          .update((c) => c.xmlInput.inputText = '<?xml version="1.0"?>\n'
+              '<parent>\n'
+              '  <child>foo updated</child>\n'
+              '</parent>');
       await po.clickDialogButton(1);
       await fixture.update();
       blockers['api'].unblock();
       await fixture.update();
       blockers['iconChange'].unblock();
       await fixture.update();
+      await fixture.update((c) => expect(c.showDialog, isFalse));
       expect(requests, hasLength(3));
-      // TODO. Compare XML objects instead of String
-      expect(
+      compareXml(
           JSON.decode(requests[2].body)['xml'],
           '<?xml version="1.0"?>\n'
           '<parent>\n'
           '  <child>foo updated</child>\n'
           '</parent>');
     });
+
+    test('click "cancel"', () async {
+      await fixture
+          .update((c) => c.xmlInput.inputText = '<?xml version="1.0"?>\n'
+              '<parent>\n'
+              '  <child>foo updated</child>\n'
+              '</parent>');
+      await po.clickDialogButton(0);
+      await fixture.update();
+      await fixture.update((c) => expect(c.showDialog, isFalse));
+      expect(requests, hasLength(2));
+    });
   });
+}
+
+void compareXml(String node1, String node2) {
+  String doParseCircle(String s) => xml.parse(s).toXmlString();
+
+  expect(doParseCircle(node1), doParseCircle(node2));
 }

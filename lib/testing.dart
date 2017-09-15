@@ -56,14 +56,14 @@ class TestClient {
         case 'GET':
           data = {
             'id': int.parse(path[1]),
-            'xml': '<?xml version="1.0"?>'
-                '<parent>'
-                '  <child>foo</child>'
+            'xml': '<?xml version="1.0"?>\n'
+                '<parent>\n'
+                '  <child>foo</child>\n'
                 '</parent>',
           };
           break;
         case 'POST':
-          data = JSON.decode(request.body);
+          data = {'id': int.parse(path[1]), 'status': 'xmlUpdated'};
           break;
       }
     }
