@@ -1,12 +1,5 @@
-# dart pub
+# Dart
 /.packages
 /.pub/
 /build/
 /pubspec.lock
-
-# dart2js
-*.dart.js
-*.part.js
-*.js.deps
-*.js.map
-*.info.json
