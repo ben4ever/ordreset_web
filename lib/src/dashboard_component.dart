@@ -30,7 +30,6 @@ class DashboardComponent implements OnInit {
 
   @ViewChild(MaterialMultilineInputComponent)
   MaterialMultilineInputComponent xmlInput;
-  //set xmlInput(MaterialMultilineInputComponent value) => _xmlInput = value;
 
   DashboardComponent(this._api) {
     showDialog = false;

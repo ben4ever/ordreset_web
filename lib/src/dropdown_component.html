@@ -2,8 +2,8 @@
 <material-dropdown-select
     [buttonText]="buttonText"
     [itemRenderer]="itemRenderer"
-    [options]="selectOptions"
-    [selection]="dropdownSelectModel"
+    [options]="options"
+    [selection]="model"
     (visibleChange)="onDropdownVisibleChange($event)">
   <div header>
     <material-select-searchbox label="Search..." [filterable]="selectOptions">
