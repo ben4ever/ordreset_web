@@ -24,9 +24,8 @@ abstract class DropdownComponent implements OnInit {
 
   @override
   ngOnInit() {
-    model.changes.listen((_) {
-      _service.(model.selectedValues);
-    });
+    model.changes
+        .listen((_) => _orderService.add(model.selectedValues.toList()));
   }
 
   String get buttonText {
@@ -37,11 +36,11 @@ abstract class DropdownComponent implements OnInit {
         return itemRenderer(model.selectedValues.first);
       default:
         return itemRenderer(model.selectedValues.join(', '));
-        // TODO. Need this?
-        //String s = itemRenderer(model.selectedValues.join(', '));
-        //if (s.length > 10) {
-        //  return s.substring(0, 8) + '...';
-        //}
+      // TODO. Need this?
+      //String s = itemRenderer(model.selectedValues.join(', '));
+      //if (s.length > 10) {
+      //  return s.substring(0, 8) + '...';
+      //}
     }
     ;
   }
@@ -58,14 +57,18 @@ abstract class DropdownComponent implements OnInit {
 }
 
 @Component(
-  selector: 'my-dropdown',
+  selector: 'my-date-dropdown',
   templateUrl: 'dropdown_component.html',
   directives: const [
     materialDirectives,
   ],
 )
 class DateDropdownComponent extends DropdownComponent {
-  DateDropdownComponent(OrderService service) : super(DropdownType.Date, service);
+  DateDropdownComponent(OrderService service)
+      : super(DropdownType.Date, service);
+
+  //TODO
+  ItemRenderer<Map<String, String>> get itemRenderer => (date) => date;
 }
 
 @Component(

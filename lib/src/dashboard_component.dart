@@ -22,22 +22,20 @@ import 'order.dart';
     CORE_DIRECTIVES,
   ],
 )
-class DashboardComponent implements OnInit {
+class DashboardComponent {
   Api _api;
+  OrderService _orderService;
   bool showDialog;
   Order _dialogOrder;
-  List<Order> orders;
 
   @ViewChild(MaterialMultilineInputComponent)
   MaterialMultilineInputComponent xmlInput;
 
-  DashboardComponent(this._api) {
+  DashboardComponent(this._api, this._orderService) {
     showDialog = false;
   }
 
-  Future<Null> ngOnInit() async {
-    orders = await _api.getOrders();
-  }
+  Stream<List<Order>> get orders => _orderService.visibleOrders;
 
   Future<Null> Function() getOpenDialogFunc(Order order) => () async {
         _dialogOrder = order;

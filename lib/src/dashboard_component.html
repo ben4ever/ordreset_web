@@ -2,7 +2,7 @@
   <tbody>
     <tr>
       <td>
-        <my-dropdown></my-dropdown>
+        <my-date-dropdown></my-date-dropdown>
       </td>
       <td>
         <my-dropdown></my-dropdown>
@@ -15,7 +15,7 @@
 </table>
 <table id="orders">
   <tbody>
-    <my-order *ngFor="let i of orders" [order]="i"
+    <my-order *ngFor="let i of orders | async" [order]="i"
       [viewXmlFunc]="getOpenDialogFunc(i)">
     </my-order>
   </tbody>

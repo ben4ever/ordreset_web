@@ -22,6 +22,8 @@ class Order {
         map['errMsg'],
       );
 
-  String get eventTimeStr =>
+  String get eventTimeDate => new DateFormat('yyyy-MM-dd').format(eventTime);
+
+  String get eventTimeFull =>
       new DateFormat('yyyy-MM-dd HH:mm:ss').format(eventTime);
 }
