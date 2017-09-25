@@ -7,7 +7,7 @@ import 'api.dart';
 import 'application_tokens.dart';
 import 'order_service.dart';
 
-abstract class DropdownComponent implements OnInit {
+abstract class DropdownComponent implements OnInit, HasDropdownType {
   SelectionOptions<Map<String, String>> options;
   SelectionModel<Map<String, String>> model;
   OrderService _orderService;
@@ -18,15 +18,18 @@ abstract class DropdownComponent implements OnInit {
 
   DropdownComponent(this._type, this._orderService) {
     options = new SelectionOptions<Map<String, String>>.fromStream(
-        _orderService.getOptionsStream(_type));
+        _orderService.getOptionsStream);
     model = new SelectionModel<Map<String, String>>.withList(allowMulti: true);
   }
 
   @override
   ngOnInit() {
-    model.changes
-        .listen((_) => _orderService.add(model.selectedValues.toList()));
+    model.changes.listen(
+        (_) => _orderService.select(this, model.selectedValues.toList()));
   }
+
+  @override
+  DropdownType get dropdownType => _type;
 
   String get buttonText {
     switch (model.selectedValues.length) {

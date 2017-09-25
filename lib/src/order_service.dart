@@ -25,8 +25,8 @@ class OrderService {
   void _updateStates() {
     // TODO. Schedule function call in new async fn in case processing takes too
     // long.
-    var visibleOrders =
-        _orders.where((order) => _dropDataMap.values.every((dd) => dd.matches(order)));
+    var visibleOrders = _orders
+        .where((order) => _dropDataMap.values.every((dd) => dd.matches(order)));
     _visOrdStreamCont.add(visibleOrders);
     _dropDataMap.values.forEach((dd) => dd.updateOptions(_orders));
   }
@@ -34,25 +34,21 @@ class OrderService {
   Stream<List<Order>> get visibleOrders => _visOrdStreamCont.stream;
 
   Stream<List<OptionGroup<DropdownEntry>>> getOptionsStream(
-          DropdownType type) =>
-      _dropDataMap[type].optionsWrappedStream;
+          HasDropdownType obj) =>
+      _dropDataMap[obj.dropdownType].optionsStream;
 
-  // TODO. Maybe register DropdownComponent on DropdownData instance so that
-  // type doesn't have to be passed all the time.
-  void select(DropdownType type, List<DropdownEntry> selected) {
-    _dropDataMap[type].select(selected);
+  void select(HasDropdownType obj, List<DropdownEntry> selected) {
+    _dropDataMap[obj.dropdownType].select(selected);
     _updateStates();
   }
 }
 
 abstract class DropdownData {
-  final _optionsWrapped =
-      new StreamController<List<OptionGroup<DropdownEntry>>>();
+  final _options = new StreamController<List<OptionGroup<DropdownEntry>>>();
   final _selectStreamCont = new StreamController<List<DropdownEntry>>();
   final _selected = <DropdownEntry>[];
 
-  Stream<List<OptionGroup<DropdownEntry>>> get optionsWrappedStream =>
-      _optionsWrapped.stream;
+  Stream<List<OptionGroup<DropdownEntry>>> get optionsStream => _options.stream;
 
   void select(List<DropdownEntry> selected) => _selected = selected;
 
@@ -64,7 +60,7 @@ abstract class DropdownData {
   void updateOptions(List<Order> orders) {
     var options = orders.map((order) => getOrderField(order)).toSet().toList()
       ..sort();
-    _optionsWrapped.add([new OptionGroup(options)]);
+    _options.add([new OptionGroup(options)]);
   }
 }
 
@@ -90,3 +86,7 @@ class DropdownEntry {
 }
 
 enum DropdownType { Date, ProcStatus, ProcResults }
+
+abstract class HasDropdownType {
+  DropdownType get dropdownType;
+}
