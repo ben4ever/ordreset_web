@@ -8,8 +8,8 @@ import 'application_tokens.dart';
 import 'order_service.dart';
 
 abstract class DropdownComponent implements OnInit, HasDropdownType {
-  SelectionOptions<Map<String, String>> options;
-  SelectionModel<Map<String, String>> model;
+  SelectionOptions<DropdownEntry> options;
+  SelectionModel<DropdownEntry> model;
   OrderService _orderService;
   DropdownType _type;
 
@@ -17,9 +17,9 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
   MaterialSelectSearchboxComponent searchbox;
 
   DropdownComponent(this._type, this._orderService) {
-    options = new SelectionOptions<Map<String, String>>.fromStream(
-        _orderService.getOptionsStream);
-    model = new SelectionModel<Map<String, String>>.withList(allowMulti: true);
+    options =
+        new SelectionOptions.fromStream(_orderService.getOptionsStream(this));
+    model = new SelectionModel.withList(allowMulti: true);
   }
 
   @override
@@ -38,17 +38,16 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
       case 1:
         return itemRenderer(model.selectedValues.first);
       default:
-        return itemRenderer(model.selectedValues.join(', '));
+        return model.selectedValues.map(itemRenderer).join(', ');
       // TODO. Need this?
       //String s = itemRenderer(model.selectedValues.join(', '));
       //if (s.length > 10) {
       //  return s.substring(0, 8) + '...';
       //}
     }
-    ;
   }
 
-  ItemRenderer<Map<String, String>> get itemRenderer;
+  ItemRenderer<DropdownEntry> get itemRenderer => (de) => '$de';
 
   void onDropdownVisibleChange(bool visible) {
     if (visible) {
@@ -69,25 +68,28 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
 class DateDropdownComponent extends DropdownComponent {
   DateDropdownComponent(OrderService service)
       : super(DropdownType.Date, service);
-
-  //TODO
-  ItemRenderer<Map<String, String>> get itemRenderer => (date) => date;
 }
 
 @Component(
-  selector: 'my-dropdown',
+  selector: 'my-procstatus-dropdown',
   templateUrl: 'dropdown_component.html',
   directives: const [
     materialDirectives,
   ],
 )
-class ProcStatusDropdownComponent extends DropdownComponent {}
+class ProcStatusDropdownComponent extends DropdownComponent {
+  ProcStatusDropdownComponent(OrderService service)
+      : super(DropdownType.ProcStatus, service);
+}
 
 @Component(
-  selector: 'my-dropdown',
+  selector: 'my-procresult-dropdown',
   templateUrl: 'dropdown_component.html',
   directives: const [
     materialDirectives,
   ],
 )
-class ProcResultDropdownComponent extends DropdownComponent {}
+class ProcResultDropdownComponent extends DropdownComponent {
+  ProcResultDropdownComponent(OrderService service)
+      : super(DropdownType.ProcResult, service);
+}

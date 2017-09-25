@@ -8,8 +8,9 @@ import 'package:xml/xml.dart' as xml;
 import 'api.dart';
 import 'button_component.dart';
 import 'dropdown_component.dart';
-import 'order_component.dart';
 import 'order.dart';
+import 'order_component.dart';
+import 'order_service.dart';
 
 @Component(
   selector: 'dashboard',
@@ -17,7 +18,9 @@ import 'order.dart';
   directives: const [
     ButtonComponent,
     OrderComponent,
-    DropdownComponent,
+    DateDropdownComponent,
+    ProcStatusDropdownComponent,
+    ProcResultDropdownComponent,
     materialDirectives,
     CORE_DIRECTIVES,
   ],

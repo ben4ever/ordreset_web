@@ -1,15 +1,17 @@
 import 'dart:async';
 
+import 'package:angular_components/angular_components.dart';
+
 import 'api.dart';
 import 'order.dart';
 
 class OrderService {
-  final List<Order> _orders;
+  List<Order> _orders;
   final _visOrdStreamCont = new StreamController<List<Order>>();
   final _dropDataMap = <DropdownType, DropdownData>{
     DropdownType.Date: new DateDropdownData(),
     DropdownType.ProcStatus: new ProcStatusDropdownData(),
-    DropdownType.ProcResults: new ProcResultsDropdownData(),
+    DropdownType.ProcResult: new ProcResultDropdownData(),
   };
   Api _api;
 
@@ -20,15 +22,17 @@ class OrderService {
   Future<Null> _initOrders() async {
     _orders = await _api.getOrders();
     _updateStates();
+    _dropDataMap.values.forEach((dd) => dd.initOptions(_orders));
   }
 
   void _updateStates() {
     // TODO. Schedule function call in new async fn in case processing takes too
     // long.
-    var visibleOrders = _orders
-        .where((order) => _dropDataMap.values.every((dd) => dd.matches(order)));
-    _visOrdStreamCont.add(visibleOrders);
-    _dropDataMap.values.forEach((dd) => dd.updateOptions(_orders));
+    var visOrders = _orders
+        .where((order) => _dropDataMap.values.every((dd) => dd.matches(order)))
+        .toList();
+    _visOrdStreamCont.add(visOrders);
+    _dropDataMap.values.forEach((dd) => dd.updateOptions(visOrders));
   }
 
   Stream<List<Order>> get visibleOrders => _visOrdStreamCont.stream;
@@ -44,48 +48,79 @@ class OrderService {
 }
 
 abstract class DropdownData {
-  final _options = new StreamController<List<OptionGroup<DropdownEntry>>>();
-  final _selectStreamCont = new StreamController<List<DropdownEntry>>();
-  final _selected = <DropdownEntry>[];
+  final _visOptionsStreamCont =
+      new StreamController<List<OptionGroup<DropdownEntry>>>();
+  List<DropdownEntry> _options;
+  var _selected = <DropdownEntry>[];
 
-  Stream<List<OptionGroup<DropdownEntry>>> get optionsStream => _options.stream;
+  void initOptions(List<Order> orders) {
+    _options = orders
+        .map((order) => _getOrderField(order))
+        .toSet()
+        .map((str) => new DropdownEntry(str))
+        .toList(growable: false)
+          ..sort();
+  }
+
+  Stream<List<OptionGroup<DropdownEntry>>> get optionsStream =>
+      _visOptionsStreamCont.stream;
 
   void select(List<DropdownEntry> selected) => _selected = selected;
 
-  String getOrderField(Order order);
+  String _getOrderField(Order order);
 
   bool matches(Order order) =>
-      _selected.any((de) => de.value == getOrderField(order));
+      _selected.isEmpty ||
+      _selected.any((de) => de.value == _getOrderField(order));
 
   void updateOptions(List<Order> orders) {
-    var options = orders.map((order) => getOrderField(order)).toSet().toList()
-      ..sort();
-    _options.add([new OptionGroup(options)]);
+    var options = orders
+        .map((order) => _getOrderField(order))
+        .toSet()
+        .map((orderStr) => _options.firstWhere(
+            (option) => orderStr == option.value,
+            orElse: () => null))
+        .where((option) => option != null)
+        .toList()
+          ..sort();
+    _visOptionsStreamCont.add([new OptionGroup(options)]);
   }
 }
 
 class DateDropdownData extends DropdownData {
   @override
-  String getOrderField(Order order) => order.eventTimeDate;
+  String _getOrderField(Order order) => order.eventTimeDate;
+}
+
+class ProcStatusDropdownData extends DropdownData {
+  @override
+  String _getOrderField(Order order) => order.procStateDesc;
+}
+
+class ProcResultDropdownData extends DropdownData {
+  @override
+  String _getOrderField(Order order) => order.eventTimeDate;
 }
 
 /// TODO. Make `DropdownEntry` generic by declaring it as `DropdownEntry<T>` to
 /// then specify its value as `T _value` instead. Then write custom `toString`
 /// methods that can be passed to `DropdownEntry`'s constructor for rendering
 /// the value.
-class DropdownEntry {
+class DropdownEntry implements Comparable<DropdownEntry> {
   String _value;
-  int _cnt;
 
-  DropdownEntry(this._value, this._cnt);
+  DropdownEntry(this._value);
 
   String get value => _value;
 
   @override
-  String toString() => '($_cnt) $_value';
+  String toString() => '$value';
+
+  @override
+  int compareTo(DropdownEntry other) => value.compareTo(other.value);
 }
 
-enum DropdownType { Date, ProcStatus, ProcResults }
+enum DropdownType { Date, ProcStatus, ProcResult }
 
 abstract class HasDropdownType {
   DropdownType get dropdownType;

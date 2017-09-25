@@ -18,8 +18,6 @@ class OrderPO {
   @ByCss('material-icon[icon="error"]')
   Lazy<List<PageLoaderElement>> _iconsError;
 
-  Future<String> getTdText(int index) => _tds[index].visibleText;
-
   Future<List<PageLoaderElement>> get buttons => _buttons();
 
   Future clickButton(int index) async => (await buttons)[index].click();

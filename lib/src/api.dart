@@ -15,7 +15,9 @@ class Api {
 
   Future<List<Order>> getOrders() async {
     List<Map<String, dynamic>> orders = await _makeCall(_client.get, '/orders');
-    return orders.map((order) => new Order.fromJson(order)).toList();
+    return orders
+        .map((order) => new Order.fromJson(order))
+        .toList(growable: false);
   }
 
   Future<Map<String, dynamic>> getOrder(int id) async =>

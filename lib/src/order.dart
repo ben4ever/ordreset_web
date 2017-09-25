@@ -5,21 +5,21 @@ class Order {
   DateTime eventTime;
   String partner;
   String msgType;
-  String procDesc;
+  String procStateDesc;
   String procMsg;
-  String errMsg;
+  String procResDesc;
 
-  Order(this.id, this.eventTime, this.partner, this.msgType, this.procDesc,
-      this.procMsg, this.errMsg);
+  Order(this.id, this.eventTime, this.partner, this.msgType, this.procStateDesc,
+      this.procMsg, this.procResDesc);
 
   factory Order.fromJson(Map<String, dynamic> map) => new Order(
         map['id'],
         DateTime.parse(map['eventTime']),
         map['partner'],
         map['msgType'],
-        map['procDesc'],
+        map['procStateDesc'],
         map['procMsg'],
-        map['errMsg'],
+        map['procResDesc'],
       );
 
   String get eventTimeDate => new DateFormat('yyyy-MM-dd').format(eventTime);
