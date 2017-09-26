@@ -6,11 +6,11 @@ import 'package:test/test.dart';
 
 import 'order.dart' as order;
 import 'dashboard.dart' as dashboard;
-import 'dropdown.dart' as dropdown;
+import 'order_service.dart' as orderService;
 
 @AngularEntrypoint()
 void main() {
   group('order:', order.main);
   group('dashboard:', dashboard.main);
-  group('dropdown:', dropdown.main);
+  group('order_service:', orderService.main);
 }
