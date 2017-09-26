@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:angular_components/angular_components.dart';
+import 'package:angular/angular.dart';
 
 import 'api.dart';
 import 'order.dart';
 
+@Injectable()
 class OrderService {
   List<Order> _orders;
   final _visOrdStreamCont = new StreamController<List<Order>>();
@@ -99,7 +101,7 @@ class ProcStatusDropdownData extends DropdownData {
 
 class ProcResultDropdownData extends DropdownData {
   @override
-  String _getOrderField(Order order) => order.eventTimeDate;
+  String _getOrderField(Order order) => order.procResDesc;
 }
 
 /// TODO. Make `DropdownEntry` generic by declaring it as `DropdownEntry<T>` to

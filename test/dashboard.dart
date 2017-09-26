@@ -17,6 +17,7 @@ import 'package:ordreset/src/api.dart';
 import 'package:ordreset/src/application_tokens.dart';
 import 'package:ordreset/src/blocker.dart';
 import 'package:ordreset/src/dashboard_component.dart';
+import 'package:ordreset/src/order_service.dart';
 import 'package:ordreset/testing.dart';
 import 'dashboard_po.dart';
 
@@ -56,6 +57,7 @@ void main() {
       provide(requestList, useValue: requests),
       provide(BaseClient, useFactory: mockClientFactory),
       provide(Api, useClass: Api, deps: [BaseClient]),
+      provide(OrderService, useClass: OrderService, deps: [Api]),
       materialProviders,
       provide(overlayContainerParent, useValue: overlayContDiv),
     ]);

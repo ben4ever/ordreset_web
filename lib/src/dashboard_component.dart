@@ -24,6 +24,7 @@ import 'order_service.dart';
     materialDirectives,
     CORE_DIRECTIVES,
   ],
+  pipes: const [COMMON_PIPES],
 )
 class DashboardComponent {
   Api _api;
