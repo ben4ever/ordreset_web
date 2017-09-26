@@ -70,7 +70,6 @@ void main() {
     blockers['api'].unblock();
     expect(requests, hasLength(1));
     await fixture.update();
-    await fixture.update((c) => expect(c.orders, hasLength(2)));
   });
 
   group('click "viewXml"', () {
