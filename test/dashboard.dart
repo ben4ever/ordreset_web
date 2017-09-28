@@ -1,7 +1,6 @@
 @Tags(const ['aot'])
 @TestOn('browser')
 
-import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 

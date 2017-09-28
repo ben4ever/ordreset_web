@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:angular_components/angular_components.dart';
 import 'package:angular/angular.dart';
+import 'package:angular_components/angular_components.dart';
 import 'package:http/browser_client.dart';
 import 'package:http/http.dart';
 
