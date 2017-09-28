@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'src/application_tokens.dart';
 
 @Injectable()
-MockClient mockClientFactory(@Inject(requestList) List<Request> requests,
+MockClient mockClientFactory(@Optional() @Inject(requestList) List<Request> requests,
         @Inject(blockApi) Future<Null> Function() blockFunc) =>
     new MockClient(new TestClient(requests, blockFunc).handler);
 

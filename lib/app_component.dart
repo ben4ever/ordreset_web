@@ -35,6 +35,7 @@ Future<Null> delayFactory() =>
   directives: const [DashboardComponent],
   providers: const [
     const Provider(blockApi, useValue: delayFactory),
+    const Provider(blockIconChange, useValue: delayFactory),
     const Provider(BaseClient, useFactory: mockClientFactory),
     const Provider(Api, useClass: Api, deps: const [BaseClient]),
     const Provider(OrderService, useClass: OrderService, deps: const [Api]),
