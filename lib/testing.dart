@@ -63,7 +63,7 @@ class TestClient {
           };
           break;
         case 'POST':
-          data = {'id': int.parse(path[1]), 'status': 'xmlUpdated'};
+          data = {'id': int.parse(path[1]), 'status': 'updated'};
           break;
       }
     }
