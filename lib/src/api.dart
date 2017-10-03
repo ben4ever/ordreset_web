@@ -27,7 +27,7 @@ class Api {
       {xml.XmlDocument xmlDoc,
       bool resubmit = false,
       bool cancel = false}) async {
-    final data = new Map<String, dynamic>();
+    final data = <String, dynamic>{};
     if (xmlDoc != null) {
       data['xml'] = xmlDoc.toXmlString(pretty: true);
     }

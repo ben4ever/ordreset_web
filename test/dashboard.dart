@@ -42,7 +42,7 @@ void main() {
       'api': new Blocker(),
       'iconChange': new Blocker(),
     };
-    requests = new List<Request>();
+    requests = <Request>[];
 
     var parentDiv = new DivElement(),
         hostDiv = new DivElement(),

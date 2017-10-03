@@ -29,7 +29,7 @@ void main() {
       'api': new Blocker(),
       'iconChange': new Blocker(),
     };
-    requests = new List<Request>();
+    requests = <Request>[];
     final testBed = new NgTestBed<ParentComponent>().addProviders([
       provide(blockApi, useValue: blockers['api'].block),
       provide(blockIconChange, useValue: blockers['iconChange'].block),
