@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:angular/angular.dart';
 import 'package:angular_components/src/components/material_select/material_dropdown_select.dart';
 import 'package:angular_components/src/components/material_select/material_select_searchbox.dart';
@@ -13,8 +15,8 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
   OrderService _orderService;
   DropdownType _type;
 
-  //@ViewChild(MaterialSelectSearchboxComponent)
-  //MaterialSelectSearchboxComponent searchbox;
+  @ViewChild(MaterialSelectSearchboxComponent)
+  MaterialSelectSearchboxComponent searchbox;
 
   DropdownComponent(this._type, this._orderService) {
     options =
@@ -49,13 +51,13 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
 
   ItemRenderer<DropdownEntry> get itemRenderer => (de) => '$de';
 
-  //void onDropdownVisibleChange(bool visible) {
-  //  if (visible) {
-  //    new Future<Null>(() {
-  //      searchbox.focus();
-  //    });
-  //  }
-  //}
+  void onDropdownVisibleChange(bool visible) {
+    if (visible) {
+      new Future<Null>(() {
+        searchbox.focus();
+      });
+    }
+  }
 }
 
 @Component(
