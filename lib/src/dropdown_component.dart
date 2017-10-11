@@ -3,14 +3,15 @@ import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:angular_components/src/components/material_select/material_dropdown_select.dart';
 import 'package:angular_components/src/components/material_select/material_select_searchbox.dart';
-import 'package:angular_components/src/model/selection/selection_options.dart';
 import 'package:angular_components/src/model/selection/selection_model.dart';
+import 'package:angular_components/src/model/selection/selection_options.dart';
+import 'package:angular_components/src/model/selection/string_selection_options.dart';
 import 'package:angular_components/src/model/ui/has_renderer.dart';
 
 import 'order_service.dart';
 
 abstract class DropdownComponent implements OnInit, HasDropdownType {
-  SelectionOptions<DropdownEntry> options;
+  StreamStringSelectionOptions<DropdownEntry> options;
   SelectionModel<DropdownEntry> model;
   OrderService _orderService;
   DropdownType _type;
@@ -20,7 +21,7 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
 
   DropdownComponent(this._type, this._orderService) {
     options =
-        new SelectionOptions.fromStream(_orderService.getOptionsStream(this));
+        new StreamStringSelectionOptions(_orderService.getOptionsStream(this));
     model = new SelectionModel.withList(allowMulti: true);
   }
 
@@ -97,4 +98,17 @@ class ProcStatusDropdownComponent extends DropdownComponent {
 class ProcResultDropdownComponent extends DropdownComponent {
   ProcResultDropdownComponent(OrderService service)
       : super(DropdownType.ProcResult, service);
+}
+
+class StreamStringSelectionOptions<T> extends StringSelectionOptions<T> {
+  StreamSubscription _streamSub;
+  StreamStringSelectionOptions(Stream<List<OptionGroup<T>>> optionGroupListStream) : super([]) {
+    _streamSub = optionGroupListStream.listen((newOptions) => optionGroups = newOptions);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamSub?.cancel();
+  }
 }
