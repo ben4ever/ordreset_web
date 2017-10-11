@@ -35,7 +35,7 @@ class TestClient {
               'msgType': 'msgtype1',
               'procEnv': 'procenv1',
               'procStateDesc': 'procstate1',
-              'procMsg': 'errmsg1',
+              'procMsg': 'procmsg1',
               'procResDesc': 'procres1',
             },
             {
@@ -45,7 +45,7 @@ class TestClient {
               'msgType': 'msgtype2',
               'procEnv': 'procenv1',
               'procStateDesc': 'procstate2',
-              'procMsg': 'errmsg2',
+              'procMsg': 'procmsg2',
               'procResDesc': 'procres2',
             },
           ];

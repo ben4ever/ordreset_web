@@ -52,7 +52,7 @@ void main() {
       'msgtype1',
       'procenv1',
       'procstate1',
-      'errmsg1',
+      'procmsg1',
       'procres1',
     ]) {
       expect(await po.getTdText(idx++), val);
@@ -98,5 +98,5 @@ void main() {
 )
 class ParentComponent {
   Order get order1 => new Order(1, new DateTime(2017, 1, 2, 4, 8, 16),
-      'partner1', 'msgtype1', 'procenv1', 'procdesc1', 'procmsg1', 'errmsg1');
+      'partner1', 'msgtype1', 'procenv1', 'procstate1', 'procmsg1', 'procres1');
 }
