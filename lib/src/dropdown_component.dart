@@ -102,8 +102,11 @@ class ProcResultDropdownComponent extends DropdownComponent {
 
 class StreamStringSelectionOptions<T> extends StringSelectionOptions<T> {
   StreamSubscription _streamSub;
-  StreamStringSelectionOptions(Stream<List<OptionGroup<T>>> optionGroupListStream) : super([]) {
-    _streamSub = optionGroupListStream.listen((newOptions) => optionGroups = newOptions);
+  StreamStringSelectionOptions(
+      Stream<List<OptionGroup<T>>> optionGroupListStream)
+      : super([]) {
+    _streamSub =
+        optionGroupListStream.listen((newOptions) => optionGroups = newOptions);
   }
 
   @override

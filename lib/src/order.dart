@@ -10,8 +10,8 @@ class Order {
   String procMsg;
   String procResDesc;
 
-  Order(this.id, this.eventTime, this.partner, this.msgType, this.procEnv, this.procStateDesc,
-      this.procMsg, this.procResDesc);
+  Order(this.id, this.eventTime, this.partner, this.msgType, this.procEnv,
+      this.procStateDesc, this.procMsg, this.procResDesc);
 
   factory Order.fromJson(Map<String, dynamic> map) => new Order(
         map['id'],
