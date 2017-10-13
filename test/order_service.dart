@@ -1,9 +1,12 @@
 @Tags(const ['aot'])
 @TestOn('browser')
 
+import 'dart:async';
+
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_test/angular_test.dart';
+import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
@@ -31,8 +34,33 @@ void main() {
 
   tearDown(disposeAnyRunningTest);
 
-  test('use injected service', () async {
+  test('check initial state', () async {
     blockers['api'].unblock();
-    expect(serv, new isInstanceOf<OrderService>());
+    expect(await serv.visibleOrders.first, hasLength(2));
+    await validateOptions(serv, new DateComp(), ['2017-01-02']);
+    await validateOptions(
+        serv, new ProcStatusComp(), ['procstate1', 'procstate2']);
+    await validateOptions(serv, new ProcResultComp(), ['procres1', 'procres2']);
   });
+}
+
+Future<Null> validateOptions(
+    OrderService serv, HasDropdownType comp, List<String> values) async {
+  var optionGroupList = await serv.getOptionsStream(comp).first;
+  var optionGroup = optionGroupList.single;
+  for (List zip in new IterableZip([optionGroup, values])) {
+    expect(zip[0].value, zip[1]);
+  }
+}
+
+class DateComp implements HasDropdownType {
+  DropdownType get dropdownType => DropdownType.Date;
+}
+
+class ProcStatusComp implements HasDropdownType {
+  DropdownType get dropdownType => DropdownType.ProcStatus;
+}
+
+class ProcResultComp implements HasDropdownType {
+  DropdownType get dropdownType => DropdownType.ProcResult;
 }

@@ -30,6 +30,16 @@ class TestClient {
         case 'GET':
           data = [
             {
+              'id': 2,
+              'eventTime': '2017-01-02T05:09:17',
+              'partner': 'partner2',
+              'msgType': 'msgtype2',
+              'procEnv': 'procenv1',
+              'procStateDesc': 'procstate2',
+              'procMsg': 'procmsg2',
+              'procResDesc': 'procres2',
+            },
+            {
               'id': 1,
               'eventTime': '2017-01-02T04:08:16',
               'partner': 'partner1',
@@ -38,16 +48,6 @@ class TestClient {
               'procStateDesc': 'procstate1',
               'procMsg': 'procmsg1',
               'procResDesc': 'procres1',
-            },
-            {
-              'id': 2,
-              'eventTime': '2016-01-02T04:08:16',
-              'partner': 'partner2',
-              'msgType': 'msgtype2',
-              'procEnv': 'procenv1',
-              'procStateDesc': 'procstate2',
-              'procMsg': 'procmsg2',
-              'procResDesc': 'procres2',
             },
           ];
           break;
