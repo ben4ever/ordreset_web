@@ -11,7 +11,7 @@ import 'src/application_tokens.dart';
 @Injectable()
 MockClient mockClientFactory(
         @Optional() @Inject(requestList) List<Request> requests,
-        @Inject(blockApi) Future<Null> Function() blockFunc) =>
+        @Optional() @Inject(blockApi) Future<Null> Function() blockFunc) =>
     new MockClient(new TestClient(requests, blockFunc).handler);
 
 class TestClient {
@@ -68,7 +68,9 @@ class TestClient {
           break;
       }
     }
-    await _blockFunc();
+    if (_blockFunc != null) {
+      await _blockFunc();
+    }
     return new Response(JSON.encode(data), 200,
         headers: {'content-type': 'application/json'});
   }
