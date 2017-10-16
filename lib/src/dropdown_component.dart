@@ -27,7 +27,7 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
 
   @override
   ngOnInit() {
-    model.changes.listen(
+    model.selectionChanges.listen(
         (_) => _orderService.select(this, model.selectedValues.toList()));
   }
 
