@@ -67,7 +67,9 @@ abstract class DropdownData {
   Stream<List<OptionGroup<DropdownEntry>>> get optionsStream =>
       _visOptionsStreamCont.stream;
 
-  void select(List<DropdownEntry> selected) => _selected = selected;
+  void select(List<DropdownEntry> selected) {
+    _selected = selected;
+  }
 
   String _getOrderField(Order order);
 
