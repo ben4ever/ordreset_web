@@ -3,8 +3,8 @@
     [buttonText]="buttonText"
     [itemRenderer]="itemRenderer"
     [options]="options"
-    [selection]="model">
-    <(visibleChange)="onDropdownVisibleChange($event)">
+    [selection]="model"
+    (visibleChange)="onDropdownVisibleChange($event)">
   <div header>
     <material-select-searchbox label="Search..." [filterable]="options">
     </material-select-searchbox>
