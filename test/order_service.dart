@@ -21,26 +21,43 @@ import 'order_po.dart';
 
 @AngularEntrypoint()
 void main() {
-  var blockers = {
-    'api': new Blocker(),
-  };
-
-  var serv = new Injector.slowReflective([
-    provide(blockApi, useValue: blockers['api'].block),
-    provide(BaseClient, useFactory: mockClientFactory),
-    provide(Api, useClass: Api, deps: [BaseClient]),
-    OrderService,
-  ]).get(OrderService);
+  OrderService serv;
 
   tearDown(disposeAnyRunningTest);
 
+  setUp(() {
+    serv = new Injector.slowReflective([
+      provide(BaseClient, useFactory: mockClientFactory),
+      provide(Api, useClass: Api, deps: [BaseClient]),
+      OrderService,
+    ]).get(OrderService);
+  });
+
   test('check initial state', () async {
-    blockers['api'].unblock();
     expect(await serv.visibleOrders.first, hasLength(2));
     await validateOptions(serv, new DateComp(), ['2017-01-02']);
     await validateOptions(
         serv, new ProcStatusComp(), ['procstate1', 'procstate2']);
     await validateOptions(serv, new ProcResultComp(), ['procres1', 'procres2']);
+  });
+
+  group('select a procstate', () {
+    setUp(() async {
+      await new Future(() {});
+      var comp = new ProcStatusComp();
+      var optionGroupList = await serv.getOptionsStream(comp).first;
+      var optionGroup = optionGroupList.single;
+      serv.select(comp, [optionGroup[0]]);
+    });
+
+    test('check procres options', () async {
+      await validateOptions(serv, new ProcResultComp(), ['procres1']);
+    });
+
+    test('check visible orders updated', () async {
+      var visOrdersList = await serv.visibleOrders.take(2).toList();
+      expect(visOrdersList.last, hasLength(1));
+    });
   });
 }
 
