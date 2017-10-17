@@ -22,7 +22,7 @@ abstract class DropdownComponent implements OnInit, HasDropdownType {
   DropdownComponent(this._type, this._orderService) {
     options =
         new StreamStringSelectionOptions(_orderService.getOptionsStream(this));
-    model = new SelectionModel.withList(allowMulti: true);
+    model = new SelectionModel.withList();
   }
 
   @override
