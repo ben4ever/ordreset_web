@@ -5,6 +5,7 @@ import 'package:angular/angular.dart';
 import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:intl/intl.dart';
 
 import 'src/application_tokens.dart';
 
@@ -28,31 +29,24 @@ class TestClient {
     if (_eq(['orders'], path)) {
       switch (request.method) {
         case 'GET':
-          data = [
-            {
-              'id': 2,
-              'eventTime': '2017-01-02T05:09:17',
-              'partner': 'partner2',
-              'msgType': 'msgtype2',
-              'procEnv': 'procenv1',
-              'procStateDesc': 'procstate2',
-              'procMsg': 'procmsg2',
-              'procResDesc': 'procres2',
-            },
-            {
-              'id': 1,
-              'eventTime': '2017-01-02T04:08:16',
-              'partner': 'partner1',
-              'msgType': 'msgtype1',
-              'procEnv': 'procenv1',
-              'procStateDesc': 'procstate1',
-              'procMsg': 'procmsg1',
-              'procResDesc': 'procres1',
-            },
-          ];
+          data = new List.generate(
+              10,
+              (i) => {
+                    'id': i,
+                    'eventTime': new DateFormat('yyyy-MM-ddTHH:mm:ss').format(
+                        new DateTime(2017, 1, 1)
+                            .add(new Duration(hours: i * 6))),
+                    'partner': 'partner$i',
+                    'msgType': 'msgtype$i',
+                    'procEnv': 'procenv$i',
+                    'procStateDesc': 'procstate${i % 3}',
+                    'procMsg': 'procmsg$i',
+                    'procResDesc': 'procres${i % 2}',
+                  });
           break;
       }
-    } else if (_eq(['orders', '1'], path) || _eq(['orders', '2'], path)) {
+    } else if (path[0] == 'orders' &&
+        int.parse(path[1], onError: (_) => null) is int) {
       switch (request.method) {
         case 'GET':
           data = {

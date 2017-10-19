@@ -34,36 +34,41 @@ void main() {
   });
 
   test('check initial state', () async {
-    expect(await serv.visibleOrders.first, hasLength(2));
-    await validateOptions(serv, new DateComp(), ['2017-01-02']);
+    expect(await serv.visibleOrders.first, hasLength(10));
     await validateOptions(
-        serv, new ProcStatusComp(), ['procstate1', 'procstate2']);
-    await validateOptions(serv, new ProcResultComp(), ['procres1', 'procres2']);
+        serv, new DateComp(), ['2017-01-01', '2017-01-02', '2017-01-03']);
+    await validateOptions(
+        serv, new ProcStatusComp(), ['procstate0', 'procstate1', 'procstate2']);
+    await validateOptions(serv, new ProcResultComp(), ['procres0', 'procres1']);
   });
 
-  group('select a procstate', () {
+  group('select a date:', () {
     setUp(() async {
       await new Future(() {});
-      var comp = new ProcStatusComp();
+      var comp = new DateComp();
       var optionGroupList = await serv.getOptionsStream(comp).first;
       var optionGroup = optionGroupList.single;
-      serv.select(comp, [optionGroup[0]]);
+      serv.select(comp, [optionGroup[2]]);
     });
 
-    test('check procres options', () async {
-      await validateOptions(serv, new ProcResultComp(), ['procres1']);
+    test('check procstate options', () async {
+      await validateOptions(
+          serv, new ProcStatusComp(), ['procstate0', 'procstate2'],
+          takeStreamCnt: 2);
     });
 
     test('check visible orders updated', () async {
       var visOrdersList = await serv.visibleOrders.take(2).toList();
-      expect(visOrdersList.last, hasLength(1));
+      expect(visOrdersList.last, hasLength(2));
     });
   });
 }
 
 Future<Null> validateOptions(
-    OrderService serv, HasDropdownType comp, List<String> values) async {
-  var optionGroupList = await serv.getOptionsStream(comp).first;
+    OrderService serv, HasDropdownType comp, List<String> values,
+    {int takeStreamCnt = 1}) async {
+  var optionGroupList =
+      await serv.getOptionsStream(comp).take(takeStreamCnt).last;
   var optionGroup = optionGroupList.single;
   for (List zip in new IterableZip([optionGroup, values])) {
     expect(zip[0].value, zip[1]);
