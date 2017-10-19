@@ -22,9 +22,8 @@
 </table>
 <table id="orders">
   <tbody>
-    <my-order *ngFor="let i of orders | async" [order]="i"
-      [viewXmlFunc]="getOpenDialogFunc(i)">
-    </my-order>
+    <tr *ngFor="let i of orders | async" myOrder [order]="i" [viewXmlFunc]="getOpenDialogFunc(i)">
+    </tr>
   </tbody>
 </table>
 <modal [visible]="showDialog">

@@ -93,7 +93,7 @@ void main() {
 
 @Component(
   selector: 'my-parent',
-  template: '<my-order [order]="order1"></my-order>',
+  template: '<tr myOrder [order]="order1"></tr>',
   directives: const [OrderComponent],
 )
 class ParentComponent {

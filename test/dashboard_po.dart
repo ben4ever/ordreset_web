@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:pageloader/objects.dart';
 
 class DashboardPO {
-  @ByCss('my-order material-fab')
+  @ByCss('tr[myOrder] material-fab')
   Lazy<List<PageLoaderElement>> _actionButtons;
 
   @ByCss('material-dialog material-fab')

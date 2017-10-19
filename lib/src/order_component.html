@@ -1,19 +1,17 @@
-<tr>
-  <td>{{order.id}}</td>
-  <td>{{order.eventTimeFull}}</td>
-  <td>{{order.partner}}</td>
-  <td>{{order.msgType}}</td>
-  <td>{{order.procEnv}}</td>
-  <td>{{order.procStateDesc}}</td>
-  <td>{{order.procMsg}}</td>
-  <td>{{order.procResDesc}}</td>
-  <td>
-    <my-button [actionFunc]="viewXml" icon="visibility"></my-button>
-  </td>
-  <td>
-    <my-button [actionFunc]="resubmit" icon="refresh"></my-button>
-  </td>
-  <td>
-    <my-button [actionFunc]="cancel" icon="cancel"></my-button>
-  </td>
-</tr>
+<td>{{order.id}}</td>
+<td>{{order.eventTimeFull}}</td>
+<td>{{order.partner}}</td>
+<td>{{order.msgType}}</td>
+<td>{{order.procEnv}}</td>
+<td>{{order.procStateDesc}}</td>
+<td>{{order.procMsg}}</td>
+<td>{{order.procResDesc}}</td>
+<td>
+  <my-button [actionFunc]="viewXml" icon="visibility"></my-button>
+</td>
+<td>
+  <my-button [actionFunc]="resubmit" icon="refresh"></my-button>
+</td>
+<td>
+  <my-button [actionFunc]="cancel" icon="cancel"></my-button>
+</td>

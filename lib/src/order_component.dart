@@ -8,7 +8,7 @@ import 'button_component.dart';
 import 'order.dart';
 
 @Component(
-  selector: 'my-order',
+  selector: 'tr[myOrder]',
   templateUrl: 'order_component.html',
   directives: const [
     ButtonComponent,
