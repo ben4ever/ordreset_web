@@ -21,8 +21,24 @@
   </tbody>
 </table>
 <table id="orders">
+  <thead>
+    <tr>
+      <td>IntCtrlNo</td>
+      <td>Event time</td>
+      <td>Partner</td>
+      <td>Message type</td>
+      <td>Processing environment</td>
+      <td>Processing state</td>
+      <td>Processing message</td>
+      <td>Processing result</td>
+      <td>View XML</td>
+      <td>Resubmit</td>
+      <td>Cancel</td>
+    </tr>
+  </thead>
   <tbody>
-    <tr *ngFor="let i of orders | async" myOrder [order]="i" [viewXmlFunc]="getOpenDialogFunc(i)">
+    <tr *ngFor="let i of orders | async" myOrder [order]="i"
+      [viewXmlFunc]="getOpenDialogFunc(i)">
     </tr>
   </tbody>
 </table>
