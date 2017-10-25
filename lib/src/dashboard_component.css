@@ -5,3 +5,7 @@ material-dialog {
 material-input {
   width: 100%;
 }
+div[footer] > * {
+  margin: auto 0;
+  width: 50px;
+}

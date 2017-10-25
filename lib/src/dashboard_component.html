@@ -47,9 +47,12 @@
     <material-input multiline rows="20" label="Write XML content here">
     </material-input>
     <div footer>
-      <material-fab mini raised (trigger)="dismiss()">
-        <material-icon icon="cancel"></material-icon>
-      </material-fab>
+      <!-- Wrap `material-fab` into a `div` so that we can appy `margin` -->
+      <div>
+        <material-fab mini raised (trigger)="dismiss()">
+          <material-icon icon="cancel"></material-icon>
+        </material-fab>
+      </div>
       <my-button [actionFunc]="saveXml" [toIdleFunc]="dismiss" icon="done">
       </my-button>
     </div>
