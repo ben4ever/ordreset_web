@@ -1,7 +1,7 @@
 name: ordreset
 dependencies:
   angular: ^4.0.0
-  angular_components: ^0.7.0
+  angular_components: ^0.8.0
   collection: ^1.14.0
   http: ^0.11.0
   intl: ^0.15.0
