@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:angular/angular.dart';
-import 'package:angular_components/src/model/selection/selection_options.dart';
+import 'package:angular_components/angular_components.dart';
 
 import 'api.dart';
 import 'order.dart';
