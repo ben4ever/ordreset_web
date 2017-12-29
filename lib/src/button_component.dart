@@ -11,8 +11,11 @@ import 'application_tokens.dart';
   templateUrl: 'button_component.html',
   directives: const [materialDirectives, CORE_DIRECTIVES],
   exports: const [ActionState],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class ButtonComponent {
+  ChangeDetectorRef _ref;
+
   @Input('icon')
   String icon;
 
@@ -25,19 +28,23 @@ class ButtonComponent {
   ActionState state;
   Future<Null> Function() _blockFuture;
 
-  ButtonComponent(@Inject(blockIconChange) this._blockFuture)
+  ButtonComponent(this._ref, @Inject(blockIconChange) this._blockFuture)
       : state = ActionState.Idle;
 
   Future<Null> click() async {
     state = ActionState.Requested;
+    _ref.markForCheck();
     try {
       await runAction();
       state = ActionState.Success;
     } on ClientException {
       state = ActionState.Error;
+    } finally {
+      _ref.markForCheck();
     }
     await _blockFuture();
     state = ActionState.Idle;
+    _ref.markForCheck();
     if (toIdleFunc != null) {
       toIdleFunc();
     }

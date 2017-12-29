@@ -37,8 +37,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let i of orders | async" myOrder [order]="i"
-      [viewXmlFunc]="getOpenDialogFunc(i)">
+    <tr *ngFor="let i of orders" myOrder [order]="i"
+      [viewXmlFunc]="getOpenDialogFunc(i)"
+      [style.display]="isVisible(i) ? 'table-row' : 'none'">
     </tr>
   </tbody>
 </table>

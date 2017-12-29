@@ -9,6 +9,7 @@ import 'order.dart';
 @Injectable()
 class OrderService {
   List<Order> _orders;
+  final _ordStreamCont = new StreamController<List<Order>>();
   final _visOrdStreamCont = new StreamController<List<Order>>();
   final _dropDataMap = <DropdownType, DropdownData>{
     DropdownType.Date: new DateDropdownData(),
@@ -23,6 +24,7 @@ class OrderService {
 
   Future<Null> _initOrders() async {
     _orders = await _api.getOrders();
+    _ordStreamCont.add(_orders);
     _dropDataMap.values.forEach((dd) => dd.initOptions(_orders));
     _updateStates();
   }
@@ -36,6 +38,8 @@ class OrderService {
     _visOrdStreamCont.add(visOrders);
     _dropDataMap.values.forEach((dd) => dd.updateOptions(visOrders));
   }
+
+  Stream<List<Order>> get orders => _ordStreamCont.stream;
 
   Stream<List<Order>> get visibleOrders => _visOrdStreamCont.stream;
 

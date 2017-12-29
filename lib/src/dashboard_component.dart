@@ -25,18 +25,33 @@ import 'order_service.dart';
     CORE_DIRECTIVES,
   ],
   pipes: const [COMMON_PIPES],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class DashboardComponent implements OnInit {
+  ChangeDetectorRef _ref;
+
   Api _api;
   OrderService _orderService;
-  bool showDialog;
+  bool showDialog = false;
   Order _dialogOrder;
+  List<Order> orders;
+  final _ordersVisMap = <Order, bool>{};
 
   @ViewChild(MaterialMultilineInputComponent)
   MaterialMultilineInputComponent xmlInput;
 
-  DashboardComponent(this._api, this._orderService) {
-    showDialog = false;
+  DashboardComponent(this._ref, this._api, this._orderService) {
+    _orderService.orders.listen((_orders) {
+      orders = _orders;
+      _ordersVisMap.clear();
+    });
+
+    _orderService.visibleOrders.listen((_visOrders) {
+      orders.forEach((order) {
+        _ordersVisMap[order] = _visOrders.contains(order);
+      });
+      _ref.markForCheck();
+    });
   }
 
   @override
@@ -45,7 +60,7 @@ class DashboardComponent implements OnInit {
         .setProperty('font-family', 'monospace');
   }
 
-  Stream<List<Order>> get orders => _orderService.visibleOrders;
+  bool isVisible(Order order) => _ordersVisMap[order];
 
   Future<Null> Function() getOpenDialogFunc(Order order) => () async {
         _dialogOrder = order;

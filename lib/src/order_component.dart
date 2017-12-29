@@ -14,6 +14,7 @@ import 'order.dart';
     ButtonComponent,
     materialDirectives,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class OrderComponent {
   Api _api;
