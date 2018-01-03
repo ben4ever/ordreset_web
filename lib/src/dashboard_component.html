@@ -39,7 +39,8 @@
   <tbody>
     <tr *ngFor="let i of orders" myOrder [order]="i"
       [viewXmlFunc]="getOpenDialogFunc(i)"
-      [style.display]="isVisible(i) ? 'table-row' : 'none'">
+      [class.my-hide]="!isVisible(i)"
+      [class.my-highlight]="isHighlighted(i)">
     </tr>
   </tbody>
 </table>

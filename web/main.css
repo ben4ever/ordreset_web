@@ -26,6 +26,9 @@ table {
   border: thin solid black;
   padding: 0.1em;
 }
-#orders tr:nth-child(even) {
+#orders .my-hide {
+  display: none;
+}
+#orders .my-highlight {
   background-color: beige;
 }

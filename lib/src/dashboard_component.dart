@@ -35,7 +35,7 @@ class DashboardComponent implements OnInit {
   bool showDialog = false;
   Order _dialogOrder;
   List<Order> orders;
-  final _ordersVisMap = <Order, bool>{};
+  final _ordersDetailsMap = <Order, Map<String, bool>>{};
 
   @ViewChild(MaterialMultilineInputComponent)
   MaterialMultilineInputComponent xmlInput;
@@ -43,12 +43,18 @@ class DashboardComponent implements OnInit {
   DashboardComponent(this._ref, this._api, this._orderService) {
     _orderService.orders.listen((_orders) {
       orders = _orders;
-      _ordersVisMap.clear();
+      _ordersDetailsMap.clear();
     });
 
     _orderService.visibleOrders.listen((_visOrders) {
+      var i = 0;
       orders.forEach((order) {
-        _ordersVisMap[order] = _visOrders.contains(order);
+        var highlight = false;
+        final visible = _visOrders.contains(order);
+        if (visible) {
+          highlight = i++ % 2 == 1;
+        }
+        _ordersDetailsMap[order] = {'highlight': highlight, 'visible': visible};
       });
       _ref.markForCheck();
     });
@@ -60,7 +66,9 @@ class DashboardComponent implements OnInit {
         .setProperty('font-family', 'monospace');
   }
 
-  bool isVisible(Order order) => _ordersVisMap[order];
+  bool isVisible(Order order) => _ordersDetailsMap[order]['visible'];
+
+  bool isHighlighted(Order order) => _ordersDetailsMap[order]['highlight'];
 
   Future<Null> Function() getOpenDialogFunc(Order order) => () async {
         _dialogOrder = order;
