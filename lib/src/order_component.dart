@@ -14,6 +14,7 @@ import 'order.dart';
     ButtonComponent,
     materialDirectives,
   ],
+  pipes: const [COMMON_PIPES],
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class OrderComponent {

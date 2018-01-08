@@ -11,12 +11,10 @@ class Order {
   String procResDesc;
 
   String eventTimeDate;
-  String eventTimeFull;
 
   Order(this.id, this.eventTime, this.partner, this.msgType, this.procEnv,
       this.procStateDesc, this.procMsg, this.procResDesc)
-      : eventTimeDate = new DateFormat('yyyy-MM-dd').format(eventTime),
-        eventTimeFull = new DateFormat('yyyy-MM-dd HH:mm:ss').format(eventTime);
+      : eventTimeDate = new DateFormat('yyyy-MM-dd').format(eventTime);
 
   factory Order.fromJson(Map<String, dynamic> map) => new Order(
         map['id'],
