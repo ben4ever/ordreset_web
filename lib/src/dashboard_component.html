@@ -20,6 +20,12 @@
     </tr>
   </tbody>
 </table>
+<material-fab mini raised (trigger)="prevPage()">
+  <material-icon icon="chevron_left"></material-icon>
+</material-fab>
+<material-fab mini raised (trigger)="nextPage()">
+  <material-icon icon="chevron_right"></material-icon>
+</material-fab>
 <table id="orders">
   <thead>
     <tr>
@@ -37,10 +43,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let i of orders" myOrder [order]="i"
-      [viewXmlFunc]="getOpenDialogFunc(i)"
-      [class.my-hide]="!isVisible(i)"
-      [class.my-highlight]="isHighlighted(i)">
+    <tr *ngFor="let i of orders | async" myOrder [order]="i"
+      [viewXmlFunc]="getOpenDialogFunc(i)">
     </tr>
   </tbody>
 </table>

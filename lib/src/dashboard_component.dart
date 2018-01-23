@@ -9,7 +9,7 @@ import 'button_component.dart';
 import 'dropdown_component.dart';
 import 'order.dart';
 import 'order_component.dart';
-import 'order_service.dart';
+import 'pagination_service.dart';
 
 @Component(
   selector: 'dashboard',
@@ -28,47 +28,27 @@ import 'order_service.dart';
   changeDetection: ChangeDetectionStrategy.OnPush,
 )
 class DashboardComponent implements OnInit {
-  ChangeDetectorRef _ref;
-
   Api _api;
-  OrderService _orderService;
+  PaginationService _paginationService;
   bool showDialog = false;
   Order _dialogOrder;
-  List<Order> orders;
-  final _ordersDetailsMap = <Order, Map<String, bool>>{};
 
   @ViewChild(MaterialMultilineInputComponent)
   MaterialMultilineInputComponent xmlInput;
 
-  DashboardComponent(this._ref, this._api, this._orderService) {
-    _orderService.orders.listen((_orders) {
-      orders = _orders;
-      _ordersDetailsMap.clear();
-    });
+  DashboardComponent(this._api, this._paginationService);
 
-    _orderService.visibleOrders.listen((_visOrders) {
-      var i = 0;
-      orders.forEach((order) {
-        var highlight = false;
-        final visible = _visOrders.contains(order);
-        if (visible) {
-          highlight = i++ % 2 == 1;
-        }
-        _ordersDetailsMap[order] = {'highlight': highlight, 'visible': visible};
-      });
-      _ref.markForCheck();
-    });
-  }
+  Stream<List<Order>> get orders => _paginationService.ordersForPage;
+
+  void nextPage() => _paginationService.nextPage();
+
+  void prevPage() => _paginationService.prevPage();
 
   @override
   ngOnInit() {
     xmlInput.inputRef.nativeElement.style
         .setProperty('font-family', 'monospace');
   }
-
-  bool isVisible(Order order) => _ordersDetailsMap[order]['visible'];
-
-  bool isHighlighted(Order order) => _ordersDetailsMap[order]['highlight'];
 
   Future<Null> Function() getOpenDialogFunc(Order order) => () async {
         _dialogOrder = order;

@@ -9,6 +9,7 @@ import 'src/api.dart';
 import 'src/application_tokens.dart';
 import 'src/dashboard_component.dart';
 import 'src/order_service.dart';
+import 'src/pagination_service.dart';
 import 'testing.dart';
 
 BrowserClient browserClientFactory() => new BrowserClient();
@@ -21,6 +22,8 @@ BrowserClient browserClientFactory() => new BrowserClient();
     const Provider(BaseClient, useFactory: browserClientFactory),
     const Provider(Api, useClass: Api, deps: const [BaseClient]),
     const Provider(OrderService, useClass: OrderService, deps: const [Api]),
+    const Provider(PaginationService,
+        useClass: PaginationService, deps: const [OrderService]),
     materialProviders,
   ],
 )
@@ -39,6 +42,8 @@ Future<Null> delayFactory() =>
     const Provider(BaseClient, useFactory: mockClientFactory),
     const Provider(Api, useClass: Api, deps: const [BaseClient]),
     const Provider(OrderService, useClass: OrderService, deps: const [Api]),
+    const Provider(PaginationService,
+        useClass: PaginationService, deps: const [OrderService]),
     materialProviders,
   ],
 )
