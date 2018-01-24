@@ -28,7 +28,8 @@ class ButtonComponent {
   ActionState state;
   Future<Null> Function() _blockFuture;
 
-  ButtonComponent(this._ref, @Inject(blockIconChange) this._blockFuture)
+  ButtonComponent(
+      this._ref, @Optional() @Inject(blockIconChange) this._blockFuture)
       : state = ActionState.Idle;
 
   Future<Null> click() async {
@@ -42,7 +43,9 @@ class ButtonComponent {
     } finally {
       _ref.markForCheck();
     }
-    await _blockFuture();
+    if (_blockFuture != null) {
+      await _blockFuture();
+    }
     state = ActionState.Idle;
     _ref.markForCheck();
     if (toIdleFunc != null) {
