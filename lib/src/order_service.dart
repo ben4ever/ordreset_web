@@ -93,17 +93,17 @@ abstract class DropdownData {
 
 class DateDropdownData extends DropdownData {
   @override
-  String _getOrderField(Order order) => order.eventTimeDate;
+  String _getOrderField(Order order) => order.eventTimeDate ?? '<null>';
 }
 
 class ProcStatusDropdownData extends DropdownData {
   @override
-  String _getOrderField(Order order) => order.procStateDesc;
+  String _getOrderField(Order order) => order.procStateDesc ?? 'null';
 }
 
 class ProcResultDropdownData extends DropdownData {
   @override
-  String _getOrderField(Order order) => order.procResDesc;
+  String _getOrderField(Order order) => order.procResDesc ?? '<null>';
 }
 
 /// TODO. Make `DropdownEntry` generic by declaring it as `DropdownEntry<T>` to

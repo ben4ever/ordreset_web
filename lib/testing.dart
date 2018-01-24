@@ -41,7 +41,7 @@ class TestClient {
                     'procEnv': 'procenv$i',
                     'procStateDesc': 'procstate${i % 3}',
                     'procMsg': 'procmsg$i',
-                    'procResDesc': 'procres${i % 2}',
+                    'procResDesc': i % 4 == 0 ? null : 'procres${i % 2}',
                   });
           break;
       }
