@@ -9,7 +9,6 @@ TODO
 * Reload order on resubmit or cancel.
 * XML
 
-  * Pretty print XML on load.
   * Show error on failed XML parsing.
 
 * Ok/Cancel icon isn't shown on buttons. Time too short?
