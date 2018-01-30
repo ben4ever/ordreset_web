@@ -9,6 +9,7 @@ import 'order.dart';
 
 @Component(
   selector: 'tr[myOrder]',
+  styleUrls: const ['order_component.css'],
   templateUrl: 'order_component.html',
   directives: const [
     ButtonComponent,

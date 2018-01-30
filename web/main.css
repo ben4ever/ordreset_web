@@ -8,24 +8,3 @@ body {
   margin: 1em 1em;
   text-align: center;
 }
-table {
-  margin: 1em auto;
-}
-
-#dropdowns td {
-  width: 15em;
-}
-
-#orders {
-  border-collapse: collapse;
-}
-#orders thead td {
-  font-weight: bold;
-}
-#orders td {
-  border: thin solid black;
-  padding: 0.1em;
-}
-#orders tr:nth-child(even) {
-  background-color: beige;
-}

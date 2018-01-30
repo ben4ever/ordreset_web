@@ -1,3 +1,25 @@
+table {
+  margin: 1em auto;
+}
+
+#dropdowns td {
+  width: 15em;
+}
+
+#orders {
+  border-collapse: collapse;
+}
+#orders thead td {
+  font-weight: bold;
+}
+#orders thead td {
+  border: thin solid black;
+  padding: 0.1em;
+}
+#orders tr:nth-child(even) {
+  background-color: beige;
+}
+
 material-dialog {
   width: 80%;
   max-height: 80vh;
