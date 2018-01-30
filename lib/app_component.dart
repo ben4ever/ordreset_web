@@ -15,7 +15,7 @@ import 'testing.dart';
 BrowserClient browserClientFactory() => new BrowserClient();
 
 Future<Null> delayFactory() =>
-    new Future<Null>.delayed(const Duration(milliseconds: 500));
+    new Future<Null>.delayed(const Duration(seconds: 1));
 
 @Component(
   selector: 'my-app',
