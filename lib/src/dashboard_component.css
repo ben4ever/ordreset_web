@@ -1,3 +1,10 @@
+#pagination {
+  margin: 1em 1em;
+}
+#pagination > * {
+  display: inline-block;
+}
+
 table {
   margin: 1em auto;
 }

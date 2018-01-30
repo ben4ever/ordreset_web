@@ -40,6 +40,10 @@ class DashboardComponent implements OnInit {
 
   Stream<List<Order>> get orders => _paginationService.ordersForPage;
 
+  int get pageCur => _paginationService.pageCur;
+
+  int get pagesTotal => _paginationService.pagesTotal;
+
   void nextPage() => _paginationService.nextPage();
 
   void prevPage() => _paginationService.prevPage();

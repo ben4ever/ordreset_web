@@ -20,12 +20,17 @@
     </tr>
   </tbody>
 </table>
-<material-fab mini raised (trigger)="prevPage()">
-  <material-icon icon="chevron_left"></material-icon>
-</material-fab>
-<material-fab mini raised (trigger)="nextPage()">
-  <material-icon icon="chevron_right"></material-icon>
-</material-fab>
+<div id="pagination">
+  <material-fab mini raised (trigger)="prevPage()">
+    <material-icon icon="chevron_left"></material-icon>
+  </material-fab>
+  <div>
+    Page {{pageCur + 1}} of {{pagesTotal == null ? '?' : pagesTotal + 1}}
+  </div>
+  <material-fab mini raised (trigger)="nextPage()">
+    <material-icon icon="chevron_right"></material-icon>
+  </material-fab>
+</div>
 <table id="orders">
   <thead>
     <tr>

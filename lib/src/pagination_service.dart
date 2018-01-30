@@ -40,5 +40,9 @@ class PaginationService {
     }
   }
 
+  int get pageCur => _page;
+
+  int get pagesTotal => _totalPages;
+
   Stream<List<Order>> get ordersForPage => _ordersForPage.stream;
 }
