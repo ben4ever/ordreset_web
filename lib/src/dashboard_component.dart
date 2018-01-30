@@ -51,7 +51,8 @@ class DashboardComponent implements OnInit {
   @override
   ngOnInit() {
     xmlInput.inputRef.nativeElement.style
-        .setProperty('font-family', 'monospace');
+      ..setProperty('font-family', 'monospace')
+      ..setProperty('overflow', 'hidden');
   }
 
   Future<Null> Function() getOpenDialogFunc(Order order) => () async {
