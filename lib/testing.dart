@@ -30,7 +30,7 @@ class TestClient {
       switch (request.method) {
         case 'GET':
           data = new List.generate(
-              10,
+              310,
               (i) => {
                     'id': i,
                     'eventTime': new DateFormat('yyyy-MM-ddTHH:mm:ss').format(
