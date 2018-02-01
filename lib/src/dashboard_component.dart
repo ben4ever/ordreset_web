@@ -7,6 +7,7 @@ import 'package:xml/xml.dart' as xml;
 import 'api.dart';
 import 'button_component.dart';
 import 'dropdown_component.dart';
+import 'exception.dart';
 import 'order.dart';
 import 'order_component.dart';
 import 'pagination_service.dart';
@@ -32,6 +33,7 @@ class DashboardComponent implements OnInit {
   PaginationService _paginationService;
   bool showDialog = false;
   Order _dialogOrder;
+  String errorText;
 
   @ViewChild(MaterialMultilineInputComponent)
   MaterialMultilineInputComponent xmlInput;
@@ -63,7 +65,13 @@ class DashboardComponent implements OnInit {
       };
 
   Future<Null> saveXml() async {
-    var xmlDoc = xml.parse(xmlInput.inputText);
+    var input = xmlInput.inputText;
+    xml.XmlDocument xmlDoc;
+    try {
+      xmlDoc = xml.parse(input);
+    } on ArgumentError catch (e) {
+      throw new XmlRetryException('Error on parsing XML: ${e.message}');
+    }
     // TODO. Do something with returned data from `updateOrder`?
     await _api.updateOrder(_dialogOrder.id, xmlDoc: xmlDoc);
   }
@@ -71,5 +79,10 @@ class DashboardComponent implements OnInit {
   void dismiss() {
     showDialog = false;
     xmlInput.inputText = '';
+    setError(null);
+  }
+
+  void setError(String text) {
+    errorText = text;
   }
 }

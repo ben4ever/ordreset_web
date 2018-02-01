@@ -54,7 +54,8 @@
   </tbody>
 </table>
 <modal [visible]="showDialog">
-  <material-dialog>
+  <material-dialog
+       [error]="errorText">
     <material-input multiline rows="20" label="Write XML content here">
     </material-input>
     <div footer>
@@ -64,7 +65,8 @@
           <material-icon icon="cancel"></material-icon>
         </material-fab>
       </div>
-      <my-button [actionFunc]="saveXml" [toIdleFunc]="dismiss" icon="done">
+      <my-button [actionFunc]="saveXml" [toIdleFunc]="dismiss"
+        [setErrorFunc]="setError" icon="done">
       </my-button>
     </div>
   </material-dialog>

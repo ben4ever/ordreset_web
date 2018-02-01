@@ -7,6 +7,4 @@ TODO
 * Add "!0" entry to ProcResult dropdown.
 * Show amount of matching orders in parentheses for each dropdown entry.
 * Reload order on resubmit or cancel.
-* XML
-
-  * Show error on failed XML parsing.
+* Implement ``ClientException`` for HTTP errors.

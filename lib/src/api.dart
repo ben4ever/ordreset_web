@@ -42,18 +42,13 @@ class Api {
 
   Future<dynamic> _makeCall(Function fn, String uri, [dynamic body]) async {
     Response resp;
-    try {
-      uri = 'api$uri';
-      if (body == null || (body is Map && body.isEmpty)) {
-        resp = await fn('$uri');
-      } else {
-        resp = await fn('$uri',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.encode(body));
-      }
-    } catch (e) {
-      print(e);
-      rethrow;
+    uri = 'api$uri';
+    if (body == null || (body is Map && body.isEmpty)) {
+      resp = await fn('$uri');
+    } else {
+      resp = await fn('$uri',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.encode(body));
     }
     return JSON.decode(resp.body);
   }

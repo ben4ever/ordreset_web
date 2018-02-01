@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
-import 'package:http/http.dart';
 
 import 'application_tokens.dart';
+import 'exception.dart';
 
 @Component(
   selector: 'my-button',
@@ -25,6 +25,9 @@ class ButtonComponent {
   @Input('toIdleFunc')
   void Function() toIdleFunc;
 
+  @Input('setErrorFunc')
+  void Function(String) setErrorFunc;
+
   ActionState state;
   Future<Null> Function() _blockFuture;
 
@@ -34,18 +37,22 @@ class ButtonComponent {
   Future<Null> click() async {
     state = ActionState.Requested;
     _ref.markForCheck();
+    var success = true;
     try {
       await runAction();
       state = ActionState.Success;
-    } on ClientException {
+    } on RetryException catch (e) {
+      if (setErrorFunc != null) {
+        setErrorFunc('$e');
+      }
       state = ActionState.Error;
-    } finally {
-      _ref.markForCheck();
+      success = false;
     }
+    _ref.markForCheck();
     await _blockFuture();
     state = ActionState.Idle;
     _ref.markForCheck();
-    if (toIdleFunc != null) {
+    if (success && toIdleFunc != null) {
       toIdleFunc();
     }
   }
