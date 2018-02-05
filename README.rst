@@ -8,3 +8,4 @@ TODO
 * Show amount of matching orders in parentheses for each dropdown entry.
 * Reload order on resubmit or cancel.
 * Implement ``ClientException`` for HTTP errors.
+* Remove second scroll bar when displaying long XML content.
