@@ -15,7 +15,8 @@ class Order {
   String eventTimeDate;
 
   Order(this.id, this.eventTime, this.partner, this.msgType, this.procEnv,
-      this.procStateDesc, this.procMsg, this.procResDesc, [this.xmlDoc])
+      this.procStateDesc, this.procMsg, this.procResDesc,
+      [this.xmlDoc])
       : eventTimeDate = new DateFormat('yyyy-MM-dd').format(eventTime);
 
   factory Order.fromJson(Map<String, dynamic> map) => new Order(
@@ -29,4 +30,11 @@ class Order {
         map['procResDesc'],
         map.containsKey('xml') ? xml.parse(map['xml']) : null,
       );
+
+  void update(Order newOrder) {
+    procEnv = newOrder.procEnv;
+    procStateDesc = newOrder.procStateDesc;
+    procMsg = newOrder.procMsg;
+    procResDesc = newOrder.procResDesc;
+  }
 }

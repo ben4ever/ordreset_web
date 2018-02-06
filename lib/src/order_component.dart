@@ -34,10 +34,12 @@ class OrderComponent {
   }
 
   Future<Null> resubmit() async {
-    await _api.updateOrder(order.id, resubmit: true);
+    var newOrder = await _api.updateOrder(order.id, resubmit: true);
+    order.update(newOrder);
   }
 
   Future<Null> cancel() async {
-    await _api.updateOrder(order.id, cancel: true);
+    var newOrder = await _api.updateOrder(order.id, cancel: true);
+    order.update(newOrder);
   }
 }

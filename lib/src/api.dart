@@ -21,11 +21,11 @@ class Api {
   }
 
   Future<Order> getOrder(int id) async {
-    var resp = await _makeCall(_client.get, '/orders/${id}');
+    final resp = await _makeCall(_client.get, '/orders/${id}');
     return new Order.fromJson(resp);
   }
 
-  Future<Map<String, dynamic>> updateOrder(int id,
+  Future<Order> updateOrder(int id,
       {xml.XmlDocument xmlDoc,
       bool resubmit = false,
       bool cancel = false}) async {
@@ -39,7 +39,8 @@ class Api {
     if (cancel) {
       data['cancel'] = true;
     }
-    return await _makeCall(_client.post, '/orders/${id}', data);
+    final resp = await _makeCall(_client.post, '/orders/${id}', data);
+    return new Order.fromJson(resp);
   }
 
   Future<dynamic> _makeCall(Function fn, String uri, [dynamic body]) async {

@@ -40,7 +40,8 @@ class TestClient {
           data = generateOrder(int.parse(path[1]), generateXml: true);
           break;
         case 'POST':
-          data = {'id': int.parse(path[1]), 'status': 'updated'};
+          data = generateOrder(int.parse(path[1]),
+              generateXml: true, isUpdate: true);
           break;
       }
     }
@@ -51,17 +52,18 @@ class TestClient {
         headers: {'content-type': 'application/json'});
   }
 
-  generateOrder(int id, {generateXml = false}) {
+  generateOrder(int id, {generateXml = false, isUpdate = false}) {
+    int offset = isUpdate ? 100 : 0;
     return {
       'id': id,
       'eventTime': new DateFormat('yyyy-MM-ddTHH:mm:ss')
           .format(new DateTime(2017, 1, 1).add(new Duration(hours: id * 6))),
       'partner': 'partner$id',
       'msgType': 'msgtype$id',
-      'procEnv': 'procenv$id',
-      'procStateDesc': 'procstate${id % 3}',
-      'procMsg': 'procmsg$id',
-      'procResDesc': id % 4 == 0 ? null : 'procres${id % 2}',
+      'procEnv': 'procenv${id + offset}',
+      'procStateDesc': 'procstate${(id % 3) + offset}',
+      'procMsg': 'procmsg${id + offset}',
+      'procResDesc': id % 4 == 0 ? null : 'procres${(id % 2) + offset}',
       'xml': '<?xml version="1.0"?>\n'
           '<parent>\n'
           '  <child>foo</child>\n'
