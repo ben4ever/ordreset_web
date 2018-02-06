@@ -29,19 +29,17 @@ class TestClient {
     if (_eq(['orders'], path)) {
       switch (request.method) {
         case 'GET':
-          data = new List.generate(
-              310, (i) => generateOrder(i, generateXml: false));
+          data = new List.generate(310, (i) => generateOrder(i));
           break;
       }
     } else if (path[0] == 'orders' &&
         int.parse(path[1], onError: (_) => null) is int) {
       switch (request.method) {
         case 'GET':
-          data = generateOrder(int.parse(path[1]), generateXml: true);
+          data = generateOrder(int.parse(path[1]));
           break;
         case 'POST':
-          data = generateOrder(int.parse(path[1]),
-              generateXml: true, isUpdate: true);
+          data = generateOrder(int.parse(path[1]), isUpdate: true);
           break;
       }
     }
@@ -52,7 +50,7 @@ class TestClient {
         headers: {'content-type': 'application/json'});
   }
 
-  generateOrder(int id, {generateXml = false, isUpdate = false}) {
+  generateOrder(int id, {isUpdate = false}) {
     int offset = isUpdate ? 100 : 0;
     return {
       'id': id,
