@@ -20,8 +20,10 @@ class Api {
         .toList(growable: false);
   }
 
-  Future<Map<String, dynamic>> getOrder(int id) async =>
-      await _makeCall(_client.get, '/orders/${id}');
+  Future<Order> getOrder(int id) async {
+    var resp = await _makeCall(_client.get, '/orders/${id}');
+    return new Order.fromJson(resp);
+  }
 
   Future<Map<String, dynamic>> updateOrder(int id,
       {xml.XmlDocument xmlDoc,

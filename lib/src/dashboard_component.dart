@@ -58,8 +58,8 @@ class DashboardComponent implements OnInit {
 
   Future<Null> Function() getOpenDialogFunc(Order order) => () async {
         _dialogOrder = order;
-        var xmlText = (await _api.getOrder(_dialogOrder.id))['xml'];
-        xmlInput.inputText = xml.parse(xmlText).toXmlString(pretty: true);
+        var xmlDoc = (await _api.getOrder(_dialogOrder.id)).xmlDoc;
+        xmlInput.inputText = xmlDoc.toXmlString(pretty: true);
         showDialog = true;
       };
 

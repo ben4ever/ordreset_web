@@ -30,32 +30,14 @@ class TestClient {
       switch (request.method) {
         case 'GET':
           data = new List.generate(
-              310,
-              (i) => {
-                    'id': i,
-                    'eventTime': new DateFormat('yyyy-MM-ddTHH:mm:ss').format(
-                        new DateTime(2017, 1, 1)
-                            .add(new Duration(hours: i * 6))),
-                    'partner': 'partner$i',
-                    'msgType': 'msgtype$i',
-                    'procEnv': 'procenv$i',
-                    'procStateDesc': 'procstate${i % 3}',
-                    'procMsg': 'procmsg$i',
-                    'procResDesc': i % 4 == 0 ? null : 'procres${i % 2}',
-                  });
+              310, (i) => generateOrder(i, generateXml: false));
           break;
       }
     } else if (path[0] == 'orders' &&
         int.parse(path[1], onError: (_) => null) is int) {
       switch (request.method) {
         case 'GET':
-          data = {
-            'id': int.parse(path[1]),
-            'xml': '<?xml version="1.0"?>\n'
-                '<parent>\n'
-                '  <child>foo</child>\n'
-                '</parent>',
-          };
+          data = generateOrder(int.parse(path[1]), generateXml: true);
           break;
         case 'POST':
           data = {'id': int.parse(path[1]), 'status': 'updated'};
@@ -67,6 +49,24 @@ class TestClient {
     }
     return new Response(JSON.encode(data), 200,
         headers: {'content-type': 'application/json'});
+  }
+
+  generateOrder(int id, {generateXml = false}) {
+    return {
+      'id': id,
+      'eventTime': new DateFormat('yyyy-MM-ddTHH:mm:ss')
+          .format(new DateTime(2017, 1, 1).add(new Duration(hours: id * 6))),
+      'partner': 'partner$id',
+      'msgType': 'msgtype$id',
+      'procEnv': 'procenv$id',
+      'procStateDesc': 'procstate${id % 3}',
+      'procMsg': 'procmsg$id',
+      'procResDesc': id % 4 == 0 ? null : 'procres${id % 2}',
+      'xml': '<?xml version="1.0"?>\n'
+          '<parent>\n'
+          '  <child>foo</child>\n'
+          '</parent>',
+    };
   }
 
   static bool _eq(List<String> pathTest, List<String> pathIs) =>
