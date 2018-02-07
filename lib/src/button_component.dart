@@ -36,6 +36,9 @@ class ButtonComponent {
 
   Future<Null> click() async {
     state = ActionState.Requested;
+    if (setErrorFunc != null) {
+      setErrorFunc(null);
+    }
     _ref.markForCheck();
     var success = true;
     try {
