@@ -21,8 +21,10 @@ class PaginationService {
   }
 
   void _update() {
-    final newOrders =
-        _allOrders.skip(_page * _ordersPerPage).take(_ordersPerPage).toList();
+    final newOrders = _allOrders
+        .skip(_page * _ordersPerPage)
+        .take(_ordersPerPage)
+        .toList(growable: false);
     _ordersForPage.add(newOrders);
   }
 

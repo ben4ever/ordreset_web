@@ -32,7 +32,7 @@ class OrderService {
     // long.
     var visOrders = _orders
         .where((order) => _dropDataMap.values.every((dd) => dd.matches(order)))
-        .toList();
+        .toList(growable: false);
     _visOrdStreamCont.add(visOrders);
     _dropDataMap.values.forEach((dd) => dd.updateOptions(visOrders));
   }
@@ -85,7 +85,7 @@ abstract class DropdownData {
             (option) => orderStr == option.value,
             orElse: () => null))
         .where((option) => option != null)
-        .toList()
+        .toList(growable: false)
           ..sort();
     _visOptionsStreamCont.add([new OptionGroup(options)]);
   }
