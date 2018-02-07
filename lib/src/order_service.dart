@@ -98,7 +98,7 @@ class DateDropdownData extends DropdownData {
 
 class ProcStatusDropdownData extends DropdownData {
   @override
-  String _getOrderField(Order order) => order.procStateDesc ?? 'null';
+  String _getOrderField(Order order) => order.procStateDesc ?? '<null>';
 }
 
 class ProcResultDropdownData extends DropdownData {
