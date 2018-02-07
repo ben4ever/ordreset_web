@@ -1,15 +1,16 @@
 import 'dart:async';
 
 class Blocker {
-  Completer<Null> _comp;
+  final _streamCont = new StreamController<Null>();
+  StreamIterator<Null> _streamIt;
 
-  Future<Null> block() {
-    assert(_comp?.isCompleted ?? true);
-    _comp = new Completer<Null>();
-    return _comp.future;
+  Blocker() {
+    _streamIt = new StreamIterator(_streamCont.stream);
   }
 
+  Future<Null> block() => _streamIt.moveNext();
+
   void unblock() {
-    _comp.complete();
+    _streamCont.add(null);
   }
 }
