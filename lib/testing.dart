@@ -9,15 +9,17 @@ import 'package:intl/intl.dart';
 
 import 'src/application_tokens.dart';
 
+typedef FutureFunc = Future<Null> Function();
+
 @Injectable()
 MockClient mockClientFactory(
         @Optional() @Inject(requestList) List<Request> requests,
-        @Optional() @Inject(blockApi) Future<Null> Function() blockFunc) =>
+        @Optional() @Inject(blockApi) FutureFunc blockFunc) =>
     new MockClient(new TestClient(requests, blockFunc).handler);
 
 class TestClient {
   List<Request> _requests;
-  Future<Null> Function() _blockFunc;
+  FutureFunc _blockFunc;
 
   TestClient(this._requests, this._blockFunc);
 
