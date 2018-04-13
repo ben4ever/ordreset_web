@@ -8,7 +8,7 @@ class Blocker {
     _streamIt = new StreamIterator(_streamCont.stream);
   }
 
-  Future<Null> block() => _streamIt.moveNext();
+  Future<bool> block() => _streamIt.moveNext();
 
   void unblock() {
     _streamCont.add(null);

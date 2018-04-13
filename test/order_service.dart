@@ -33,7 +33,8 @@ void main() {
         serv, new DateComp(), ['2017-01-01', '2017-01-02', '2017-01-03']);
     await validateOptions(
         serv, new ProcStatusComp(), ['procstate0', 'procstate1', 'procstate2']);
-    await validateOptions(serv, new ProcResultComp(), ['procres0', 'procres1']);
+    await validateOptions(
+        serv, new ProcResultComp(), ['<null>', 'procres0', 'procres1']);
   });
 
   group('select a date:', () {

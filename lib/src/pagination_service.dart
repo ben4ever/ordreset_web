@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:angular/angular.dart';
+
 import 'order.dart';
 import 'order_service.dart';
 
+@Injectable()
 class PaginationService {
   OrderService _orderService;
   int _page = 0;

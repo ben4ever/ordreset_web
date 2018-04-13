@@ -31,7 +31,7 @@ class TestClient {
     if (_eq(['orders'], path)) {
       switch (request.method) {
         case 'GET':
-          data = new List.generate(310, (i) => generateOrder(i));
+          data = new List.generate(10, (i) => generateOrder(i));
           break;
       }
     } else if (path[0] == 'orders' &&
