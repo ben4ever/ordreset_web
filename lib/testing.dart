@@ -52,7 +52,7 @@ class TestClient {
         headers: {'content-type': 'application/json'});
   }
 
-  generateOrder(int id, {isUpdate = false}) {
+  Map generateOrder(int id, {isUpdate = false}) {
     int offset = isUpdate ? 100 : 0;
     return {
       'id': id,
