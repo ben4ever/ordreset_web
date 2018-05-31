@@ -11,7 +11,9 @@ dev_dependencies:
   browser: ^0.10.0
   dart_to_js_script_rewriter: ^1.0.0
   pub:
-    git: https://github.com/dart-lang/pub.git
+    git:
+      url: https://github.com/dart-lang/pub.git
+      ref: 711f515553a6b87e522715944391cced4dc96d13
   test: ^0.12.0
 transformers:
 - angular:
